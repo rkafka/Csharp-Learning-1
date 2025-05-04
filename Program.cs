@@ -6,10 +6,14 @@ using System.Numerics;
 /* TO RUN: "dotnet build ; dotnet run" */
 
 
+
+
+
 // Random dice = new Random(); // Random dice = new();
 // int roll = dice.Next(1, 7);
 // Console.WriteLine("You rolled a " + roll);
 // Console.WriteLine(Math.Max(500, 600));
+
 
 // Random dice = new();
 // int numSides = 6;
@@ -32,29 +36,37 @@ using System.Numerics;
 // else if(score == 7)  {Console.WriteLine("You win a trip for two!");}
 // else                 {Console.WriteLine("You win a kitten!");}
 
-Random rng = new();
-int daysUntilExpiration = rng.Next(12);
-int discountPercentage = 0;
 
-string message = "";
-if(daysUntilExpiration <= 10) {
-    message = "Your subscription will expire soon. Renew now!";
-    if(daysUntilExpiration <= 5) {
-        message = $"Your subscription expires in {daysUntilExpiration} days.";
-        discountPercentage = 10;
-        if(daysUntilExpiration==1) {
-            message = "You subscription expires within a day!";
-            discountPercentage = 20;
-        }
-        else if(daysUntilExpiration == 0) {
-            message = "Your subscription has expired.";
-            discountPercentage = 0;
-        }
-    }
-}
-if(message.Length > 0) {
-    if(discountPercentage > 0) {
-        message += $"\nRenew now and save {discountPercentage}%!";
-    }
-    Console.WriteLine(message);
-}
+// Random rng = new();
+// int daysUntilExpiration = rng.Next(12);
+// int discountPercentage = 0;
+// string message = "";
+// if(daysUntilExpiration <= 10) {
+//     message = "Your subscription will expire soon. Renew now!";
+//     if(daysUntilExpiration <= 5) {
+//         message = $"Your subscription expires in {daysUntilExpiration} days.";
+//         discountPercentage = 10;
+//         if(daysUntilExpiration==1) {
+//             message = "You subscription expires within a day!";
+//             discountPercentage = 20;
+//         }
+//         else if(daysUntilExpiration == 0) {
+//             message = "Your subscription has expired.";
+//             discountPercentage = 0;
+//         }
+//     }
+// }
+// if(message.Length > 0) {
+//     if(discountPercentage > 0) {
+//         message += $"\nRenew now and save {discountPercentage}%!";
+//     }
+//     Console.WriteLine(message);
+// }
+
+string[] fraudulentOrderIDs = new string[3];
+fraudulentOrderIDs[0] = "A123";
+fraudulentOrderIDs[1] = "B456";
+fraudulentOrderIDs[2] = "C789";
+Console.WriteLine($@"First: {fraudulentOrderIDs[0]}
+Second: {fraudulentOrderIDs[1]}
+Third: {fraudulentOrderIDs[2]}");
