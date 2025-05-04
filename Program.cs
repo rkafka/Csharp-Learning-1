@@ -40,10 +40,10 @@ string message = "";
 if(daysUntilExpiration <= 10) {
     message = "Your subscription will expire soon. Renew now!";
     if(daysUntilExpiration <= 5) {
-        message = $"Your subscription expires in {daysUntilExpiration} days.\nRenew now and save 10%!";
+        message = $"Your subscription expires in {daysUntilExpiration} days.";
         discountPercentage = 10;
         if(daysUntilExpiration==1) {
-            message = @"You subscription expires within a day!\nRenew now and save 20%!";
+            message = "You subscription expires within a day!";
             discountPercentage = 20;
         }
         else if(daysUntilExpiration == 0) {
@@ -52,5 +52,9 @@ if(daysUntilExpiration <= 10) {
         }
     }
 }
-if(message.Length > 0) {Console.WriteLine(message);}
-return discountPercentage;
+if(message.Length > 0) {
+    if(discountPercentage > 0) {
+        message += $"\nRenew now and save {discountPercentage}%!";
+    }
+    Console.WriteLine(message);
+}
