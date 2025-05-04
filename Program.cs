@@ -84,6 +84,6 @@ int sum = 0;
 int bin = 0;
 foreach (int items in inventory) {
     sum += items;
-    Console.WriteLine($"Bin {bin} = {items} items (Running total = {sum})");
+    Console.WriteLine($"Bin {bin++} = {items} items (Running total = {sum})");
 }
 Console.WriteLine($"There are {sum} total items in inventory.");
