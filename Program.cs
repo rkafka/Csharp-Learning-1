@@ -64,6 +64,9 @@ using System.Numerics;
 // }
 
 string[] fraudulentOrderIDs = ["A123", "B456", "C789"];
-Console.WriteLine($@"First: {fraudulentOrderIDs[0]}
+Console.WriteLine($@"
+First: {fraudulentOrderIDs[0]}
 Second: {fraudulentOrderIDs[1]}
-Third: {fraudulentOrderIDs[2]}");
+Third: {fraudulentOrderIDs[2]}
+");
+Console.WriteLine($"There are {fraudulentOrderIDs.Length} fraudulent orders to process.\n");
