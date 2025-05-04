@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 // Console.WriteLine("Time to get familiar with C#");
 
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
 /* TO RUN: "dotnet build ; dotnet run" */
@@ -63,10 +64,24 @@ using System.Numerics;
 //     Console.WriteLine(message);
 // }
 
-string[] fraudulentOrderIDs = ["A123", "B456", "C789"];
-Console.WriteLine($@"
-First: {fraudulentOrderIDs[0]}
-Second: {fraudulentOrderIDs[1]}
-Third: {fraudulentOrderIDs[2]}
-");
-Console.WriteLine($"There are {fraudulentOrderIDs.Length} fraudulent orders to process.\n");
+
+/* ARRAYS */
+
+// string[] fraudulentOrderIDs = ["A123", "B456", "C789"];
+// Console.WriteLine($@"
+// First: {fraudulentOrderIDs[0]}
+// Second: {fraudulentOrderIDs[1]}
+// Third: {fraudulentOrderIDs[2]}
+// ");
+// Console.WriteLine($"There are {fraudulentOrderIDs.Length} fraudulent orders to process.\n");
+
+string[] names = { "Ryan", "Robert", "Richard" };
+foreach (string name in names) {
+    Console.WriteLine(name);
+}
+int[] inventory = { 200, 450, 700, 175, 250 };
+int sum = 0;
+foreach (int items in inventory) {
+    sum += items;
+}
+Console.WriteLine($"There are {sum} total items in inventory.");
