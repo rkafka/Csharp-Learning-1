@@ -1,0 +1,15 @@
+C:\Users\ryank\source\repos\CsharpTest1\bin\Debug\net8.0\CsharpTest1.exe
+C:\Users\ryank\source\repos\CsharpTest1\bin\Debug\net8.0\CsharpTest1.deps.json
+C:\Users\ryank\source\repos\CsharpTest1\bin\Debug\net8.0\CsharpTest1.runtimeconfig.json
+C:\Users\ryank\source\repos\CsharpTest1\bin\Debug\net8.0\CsharpTest1.dll
+C:\Users\ryank\source\repos\CsharpTest1\bin\Debug\net8.0\CsharpTest1.pdb
+C:\Users\ryank\source\repos\CsharpTest1\obj\Debug\net8.0\CsharpTest1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ryank\source\repos\CsharpTest1\obj\Debug\net8.0\CsharpTest1.AssemblyInfoInputs.cache
+C:\Users\ryank\source\repos\CsharpTest1\obj\Debug\net8.0\CsharpTest1.AssemblyInfo.cs
+C:\Users\ryank\source\repos\CsharpTest1\obj\Debug\net8.0\CsharpTest1.csproj.CoreCompileInputs.cache
+C:\Users\ryank\source\repos\CsharpTest1\obj\Debug\net8.0\CsharpTest1.sourcelink.json
+C:\Users\ryank\source\repos\CsharpTest1\obj\Debug\net8.0\CsharpTest1.dll
+C:\Users\ryank\source\repos\CsharpTest1\obj\Debug\net8.0\refint\CsharpTest1.dll
+C:\Users\ryank\source\repos\CsharpTest1\obj\Debug\net8.0\CsharpTest1.pdb
+C:\Users\ryank\source\repos\CsharpTest1\obj\Debug\net8.0\CsharpTest1.genruntimeconfig.cache
+C:\Users\ryank\source\repos\CsharpTest1\obj\Debug\net8.0\ref\CsharpTest1.dll

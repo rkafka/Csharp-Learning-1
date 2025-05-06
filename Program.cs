@@ -3,6 +3,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
+using System.Security;
 
 /* TO RUN: "dotnet build ; dotnet run" */
 
@@ -95,4 +96,68 @@ using System.Numerics;
 //         Console.WriteLine(orderID);
 //     }
 // }
+
+
+namespace AddingLogicToConsoleApplications {
+    class Program {
+        static void Main(string[] args) {
+            Console.WriteLine("\n[] Adding Logic to Console Applications in C# [] > | . . .\n");
+            
+            /* Tests, uncomment as desired */
+            // booleanTests();
+            // coinFlip();
+            Console.Write("Enter a level: ");
+            int level = int.Parse(Console.ReadLine());
+            Console.WriteLine("You entered " + level);
+            businessRules("Admin|Manager", level);
+            /* end of test options */
+
+            Console.WriteLine("\nPress any key to exit...");
+            Console.ReadKey();
+        }
+
+
+
+        /**
+         *  Business rules simulation
+         *  - string comparison [string.Contains() method]
+         *  - conditional operator (ternary)
+         */
+        static void businessRules(string permission, int level) {
+            if(permission.Contains("Admin"))
+                Console.WriteLine($"Welcome, {((level > 55) ? "Super " : "")}Admin user.");
+            else if(permission.Contains("Manager") && level >= 20)
+                Console.WriteLine("Contact an Admin for access.");
+            else
+                Console.WriteLine("You do not have sufficient privileges.");
+        }   
+
+
+        /**
+         *  Coin flip simulation
+         *  - Random class, Next() method for 50/50 RNG
+         *  - Conditional operator (ternary)
+         */
+        static void coinFlip() {
+            Random random = new();
+            int flip = random.Next(2); // 0 or 1
+            Console.WriteLine($"You flipped a coin and got {((flip == 0) ? "Heads" : "Tails")}.");
+        }
+
+
+        /**
+         *  Boolean tests
+         *  - string comparison
+         *  - conditional operator (ternary)
+         */
+        static void booleanTests() {
+            string value1 = " a";
+            string value2 = "A ";
+            Console.WriteLine(value1.Trim().ToLower() == value2.Trim().ToLower());
+
+            int saleAmount = 1000;
+            Console.WriteLine($"Discount = {(saleAmount > 1000 ? 100 : 50)}");
+        }
+    }
+}
 
