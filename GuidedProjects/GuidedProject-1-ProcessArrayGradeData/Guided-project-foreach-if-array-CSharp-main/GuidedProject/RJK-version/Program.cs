@@ -13,11 +13,56 @@ decimal andrewGrade = (decimal) andrewScores.Sum() / currentAssignments;
 decimal emmaGrade   = (decimal) emmaScores.Sum()   / currentAssignments;
 decimal loganGrade  = (decimal) loganScores.Sum()  / currentAssignments;
 
+string[] studentNames = { "Sophia", "Andrew", "Emma", "Logan" };
+
 Console.WriteLine("Student\t\tGrade\n");
-Console.WriteLine("Sophia:\t\t" + sophiaGrade + "\tA-");
-Console.WriteLine("Andrew:\t\t" + andrewGrade + "\tB+");
-Console.WriteLine("Emma:\t\t" + emmaGrade + "\tB");
-Console.WriteLine("Logan:\t\t" + loganGrade + "\tA-");
+int[] studentScores = new int[5];
+foreach (string name in studentNames)
+{
+    switch(name)
+    {
+        case "Sophia":
+            studentScores = sophiaScores;
+            break;
+        case "Andrew":
+            studentScores = andrewScores;            
+            break;
+        case "Emma":
+            studentScores = emmaScores;
+            break;
+        case "Logan":
+            studentScores = loganScores;
+            break;
+        default:
+            Console.WriteLine("ERR <----------------------------X");
+            Console.ReadLine();
+            break;
+    }
+    decimal studentGrade = (decimal) studentScores.Sum() / currentAssignments;
+    Console.WriteLine($"{name}:\t\t" + studentGrade + "\t" + determineLetterGrade(studentGrade));
+}
 
 Console.WriteLine("Press the Enter key to continue");
 Console.ReadLine();
+
+string determineLetterGrade(decimal grade) {
+    string letterGrade = "";
+    if (grade >= 90)
+        letterGrade = "A";
+    else if (grade >= 80)
+        letterGrade = "B";
+    else if (grade >= 70)
+        letterGrade = "C";
+    else if (grade >= 60)
+        letterGrade = "D";
+    else
+        letterGrade = "F";
+
+    grade = grade % 10;
+    if (grade >= 7)
+        letterGrade += "+";
+    else if (grade < 3)
+        letterGrade += "-";
+
+    return letterGrade;
+}
