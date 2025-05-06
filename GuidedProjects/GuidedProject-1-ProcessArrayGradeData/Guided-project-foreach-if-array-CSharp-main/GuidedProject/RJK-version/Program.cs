@@ -41,27 +41,27 @@ namespace GuidedProject1_RJK {
             int[] emmaExtraCredit =   {89, 89, 89};
             int[] loganExtraCredit =  {96, 0,  0};
 
-            Console.WriteLine("Student\t\tGrade\n");
-            int[] studentScores = new int[5];
+            Console.WriteLine("\n\nStudent\t\tExam Score\tOverall Grade\tExtra Credit\n");
+            int[] examScores = new int[5];
             int[] extraCreditScores = new int[3];
             foreach (string name in studentNames)
             {
                 switch(name)
                 {
                     case "Sophia":
-                        studentScores = sophiaScores;
+                        examScores = sophiaScores;
                         extraCreditScores = sophiaExtraCredit;
                         break;
                     case "Andrew":
-                        studentScores = andrewScores;  
+                        examScores = andrewScores;  
                         extraCreditScores = andrewExtraCredit;          
                         break;
                     case "Emma":
-                        studentScores = emmaScores;
+                        examScores = emmaScores;
                         extraCreditScores = emmaExtraCredit;
                         break;
                     case "Logan":
-                        studentScores = loganScores;
+                        examScores = loganScores;
                         extraCreditScores = loganExtraCredit;
                         break;
                     default:
@@ -69,13 +69,22 @@ namespace GuidedProject1_RJK {
                         Console.ReadLine();
                         break;
                 }
-                decimal adjustedSum = (decimal) studentScores.Sum() + (extraCreditScores.Sum()*.1m);
-                decimal studentGrade = adjustedSum / currentAssignments;
+
+                decimal examScoreAverage = (decimal) examScores.Sum() / currentAssignments;
+                decimal extraCreditBonus = extraCreditScores.Sum() * .1m / currentAssignments;
+                decimal overallGrade = examScoreAverage + extraCreditBonus;
+                
+                int numExtraCreditAssignments = 0;
+                foreach (int score in extraCreditScores)
+                {   if (score > 0) {numExtraCreditAssignments++;}   }
+
                 GuidedProject1 gp1 = new GuidedProject1();
-                Console.WriteLine($"{name}:\t\t" + studentGrade + "\t" + gp1.determineLetterGrade(studentGrade));
+                Console.WriteLine($"{name}:\t\t{examScoreAverage}\t\t" + 
+                    $"{overallGrade}\t{gp1.determineLetterGrade(overallGrade)}\t" +
+                    $"{(decimal)extraCreditScores.Sum() / numExtraCreditAssignments} ({extraCreditBonus} pts)");
             }
 
-            Console.WriteLine("Press the Enter key to continue");
+            Console.WriteLine("\nPress the Enter key to continue");
             Console.ReadLine();
         }
     }
