@@ -41,7 +41,8 @@ namespace GuidedProject1_RJK {
             int[] emmaExtraCredit =   {89, 89, 89};
             int[] loganExtraCredit =  {96, 0,  0};
 
-            Console.WriteLine("\n\nStudent\t\tExam Score\tOverall Grade\tExtra Credit\n");
+            Console.WriteLine("\n\nStudent\t\t|  Exam Score\t|  Overall Grade\t|  Extra Credit\n" 
+                            + "-------------------------------------------------------------------------");
             int[] examScores = new int[5];
             int[] extraCreditScores = new int[3];
             foreach (string name in studentNames)
@@ -78,9 +79,9 @@ namespace GuidedProject1_RJK {
                 foreach (int score in extraCreditScores)
                 {   if (score > 0) {numExtraCreditAssignments++;}   }
 
-                GuidedProject1 gp1 = new GuidedProject1();
-                Console.WriteLine($"{name}:\t\t{examScoreAverage}\t\t" + 
-                    $"{overallGrade}\t{gp1.determineLetterGrade(overallGrade)}\t" +
+                GuidedProject1 gp1 = new();
+                Console.WriteLine($"{name}:\t\t|  {examScoreAverage}\t\t|  " + 
+                    $"{overallGrade}\t{gp1.determineLetterGrade(overallGrade)}\t|  " +
                     $"{(decimal)extraCreditScores.Sum() / numExtraCreditAssignments} ({extraCreditBonus} pts)");
             }
 
