@@ -108,13 +108,23 @@ namespace AddingLogicToConsoleApplications {
             // coinFlip();
             // businessRules();
             // codeBlocksAndVariableScope();
-            challengeActivity();
+            // challengeActivity();
+            moduleAssessment();
             /* end of test options */
 
             Console.WriteLine("\nPress any key to exit...");
             Console.ReadKey();
         }
 
+
+        static void moduleAssessment() {
+            int int1 = 1;
+            if(int1 > 0) {
+                int int2 = 8;
+                int1 += int2;
+            }
+            Console.WriteLine($"Q2:  int1 = {int1}");
+        }
 
         static void challengeActivity() {
             /* ORIGINAL CODE -- TO-FIX! */
