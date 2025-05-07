@@ -111,13 +111,83 @@ namespace AddingLogicToConsoleApplications {
             // challengeActivity();
             // moduleAssessment();
             // switchCaseTests(); // BRANCH FLOW USING SWITCH CASE
-            iterationLoops(); // WHILE, DO-WHILE, FOR, FOREACH LOOPS
+            // iterationLoops(); // FOR, FOREACH LOOPS
+            // challengeActivity_ForLoops();
+            whileLoops(); // WHILE, DO-WHILE LOOPS
 
             /* end of test options */
 
             Console.WriteLine("\nPress any key to exit...");
             Console.ReadKey();
         }
+
+
+        static void whileLoops() {
+            // Random random = new Random();
+            // int current = random.Next(1, 11);
+
+            // do {
+            //     current = random.Next(1, 11);
+            //     if (current >= 8) 
+            //         continue;
+            //     Console.WriteLine(current);
+            // } while (current != 7);
+
+            textGame1(); // text-based game simulation
+
+            
+
+        }
+
+        static bool textGame1() {
+            int heroHP = 10;
+            int monsterHP = 10;
+            Random random = new();
+            bool deathOccurred = true; // assume a kill occurs
+
+            Console.WriteLine("You happen upon a monster. A randomized fight begins - enter to continue, 'run' to retreat.\nGood luck!\n\n");
+            // loop while both Hero and Monster are alive
+            do {
+                if(Console.ReadLine() == "run") {
+                    Console.WriteLine($"You ran away. You have escaped from the monster. ({heroHP} HP remaining)"); 
+                    deathOccurred = false; // no kill occurs
+                    break;
+                }
+                int attack = random.Next(1, 11); // attack value is 1-10
+                monsterHP -= attack; // Hero attacks Monster
+                Console.WriteLine($"You injured the monster for {attack} HP. It now has {monsterHP} HP.");
+
+                if(monsterHP > 0) {
+                    attack = random.Next(1, 11); // attack value is 1-10
+                    heroHP -= attack; // Monster attacks Hero
+                    Console.WriteLine($"You were hurt, losing {attack} HP. They now have {heroHP} HP.");
+                }
+            } while(heroHP > 0 && monsterHP > 0);  
+            
+            //
+            if(deathOccurred) { 
+                Console.WriteLine($"Hero HP: {heroHP} | Monster HP: {monsterHP}");
+                Console.WriteLine($"{(heroHP > 0 ? "You have slain the beast. Congratulations, hero!" : "Oh no! You've been eaten by the monster.")}");
+            }
+
+            return deathOccurred && monsterHP <= 0; // return true if monster is dead
+        }
+
+
+        static void challengeActivity_ForLoops() {
+            for (int i = 1; i <= 100; i++) {
+                Console.Write(i);
+                if(i%3==0 || i%5==0) {
+                    Console.Write(" - ");
+                    if (i % 3 == 0)
+                        Console.Write("Fizz");
+                    if (i % 5 == 0)
+                        Console.Write("Buzz");
+                }
+                Console.WriteLine();
+            }
+        }
+
 
         static void iterationLoops() {
             // BASIC FOR (using index) + conditional break
