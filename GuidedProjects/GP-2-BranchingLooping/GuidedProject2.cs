@@ -72,28 +72,39 @@ namespace GuidedProject2_RJK {
                 ourAnimals[i, 5] = "Personality: " + animalPersonalityDescription;
             }
 
+            string[] menuOptions = {
+                "ERROR <- option zero should not be visible",
+                "List all of our current pet information",
+                "Add a new animal friend to the ourAnimals array",
+                "Ensure animal ages and physical descriptions are complete",
+                "Ensure animal nicknames and personality descriptions are complete",
+                "Edit an animal’s age",
+                "Edit an animal’s personality description",
+                "Display all cats with a specified characteristic",
+                "Display all dogs with a specified characteristic",
+                "Exit the program"
+            };
+
             // display the top-level menu options
             do {
                 Console.Clear();
 
+                // display the menu options
                 Console.WriteLine("Welcome to the Contoso PetFriends app. Your main menu options are:");
-                Console.WriteLine(" 1. List all of our current pet information");
-                Console.WriteLine(" 2. Add a new animal friend to the ourAnimals array");
-                Console.WriteLine(" 3. Ensure animal ages and physical descriptions are complete");
-                Console.WriteLine(" 4. Ensure animal nicknames and personality descriptions are complete");
-                Console.WriteLine(" 5. Edit an animal’s age");
-                Console.WriteLine(" 6. Edit an animal’s personality description");
-                Console.WriteLine(" 7. Display all cats with a specified characteristic");
-                Console.WriteLine(" 8. Display all dogs with a specified characteristic");
+                for(int i = 1; i < menuOptions.Length; i++) {
+                    Console.WriteLine($" {i}. {menuOptions[i]}");
+                }
                 Console.WriteLine();
-                Console.WriteLine("Enter your selection number (or type Exit to exit the program)");
 
+                // get the user's menu selection
+                Console.Write("Enter your selection number --->  ");
                 readResult = Console.ReadLine();
                 if (readResult != null) {
                     menuSelection = readResult.ToLower();
                 }
-
-                Console.WriteLine($"You selected menu option {menuSelection}.");
+                Console.WriteLine($"You selected menu option {menuSelection} ({menuOptions[int.Parse(menuSelection)]}).\n");
+                
+                // handle menu selection requested by the user
                 switch(menuSelection) {
                     case "1":
                         for(int i = 0; i < maxPets; i++) {
@@ -206,8 +217,33 @@ namespace GuidedProject2_RJK {
                         Console.WriteLine("Press the Enter key to continue.");
                         readResult = Console.ReadLine();
                         break;
+                    /* "Ensure animal ages and physicl descriptions are complete" */
                     case "3":
                         Console.WriteLine("Challenge Project - please check back to see progress.");
+                        
+                        for (int i = 0; i < maxPets; i++) {
+                            bool validEntry = false;
+                            // Skip over any animal in the array with a pet ID set to the default val
+                            if(ourAnimals[i, 0] != "ID #: ") { 
+                                Console.Write(ourAnimals[i, 0] + "\t");
+                                string currentAge = ourAnimals[i, 2].Substring("Age: ".Length);
+                                if(!int.TryParse(currentAge, out int petAge)) {
+                                    do {
+                                        Console.Write($"\n> Please enter the pet's age in years:  ");
+                                        readResult = Console.ReadLine();
+                                        if(readResult != null) {
+                                            animalAge = readResult.ToLower();
+                                            validEntry = int.TryParse(animalAge, out petAge);
+                                            ourAnimals[i, 2] = "Age: " + petAge.ToString();
+                                        }
+                                    } while(validEntry == false);
+                                }
+                                else {
+                                    Console.WriteLine($" (Age: {currentAge})");
+                                }
+                            }
+                        }
+
                         Console.WriteLine("Press the Enter key to continue.");
                         readResult = Console.ReadLine();
                         break;
@@ -236,11 +272,15 @@ namespace GuidedProject2_RJK {
                         Console.WriteLine("Press the Enter key to continue.");
                         readResult = Console.ReadLine();
                         break;
+                    case "9":
+                        menuSelection = "exit";
+                        break;
                     default:
                         break;
                 }
-                // pause code execution
-                readResult = Console.ReadLine();
+                // // pause code execution
+                // Console.WriteLine("Press the Enter key to continue.");
+                // readResult = Console.ReadLine();
             } while(menuSelection != "exit");
         }
     }
