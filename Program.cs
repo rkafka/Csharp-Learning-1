@@ -110,12 +110,41 @@ namespace AddingLogicToConsoleApplications {
             // codeBlocksAndVariableScope();
             // challengeActivity();
             // moduleAssessment();
-            // BRANCH FLOW USING SWITCH CASE
-            switchCaseTests();
+            // switchCaseTests(); // BRANCH FLOW USING SWITCH CASE
+            iterationLoops(); // WHILE, DO-WHILE, FOR, FOREACH LOOPS
+
             /* end of test options */
 
             Console.WriteLine("\nPress any key to exit...");
             Console.ReadKey();
+        }
+
+        static void iterationLoops() {
+            // BASIC FOR (using index) + conditional break
+            for(int i = 0; i < 10; i++) {
+                Console.WriteLine($"For loop: {i}");
+                if(i == 5) {
+                    Console.WriteLine("Breaking out of the loop.");
+                    break; // exit the loop
+                }
+            }
+
+            // FOR (using length of string) vs FOREACH
+            string[] names = {"Aaron", "Ben" , "Chris", "Dani"};
+            for (int i = names.Length - 1; i >= 0; i--) {
+                Console.WriteLine($"For loop: {names[i]}");
+            }
+            foreach(string name in names) {
+                Console.WriteLine($"Foreach loop: {name}");
+            }
+
+            // FOR loop, with replacement by index during iteration
+            for (int i = 0; i < names.Length; i++) {
+                Console.WriteLine($"For loop: {(names[i].StartsWith("A") ? "A-A-Ron, say it right!" : names[i] )}");
+                // inefficent but funnier
+                if(names[i].StartsWith("A")) 
+                    names[i] = "A-A-Ron";
+            }
         }
 
         static void switchCaseTests() {
