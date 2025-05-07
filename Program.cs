@@ -98,10 +98,14 @@ using Microsoft.VisualBasic;
 //     }
 // }
 
+// static void Main(string[] args) {
+
+// }
+
 
 namespace AddingLogicToConsoleApplications {
     class Program {
-        static void Main(string[] args) {
+        static void Execute(string[] args) {
             Console.WriteLine("\n[] Adding Logic to Console Applications in C# [] > | . . .\n");
             
             /* Tests, uncomment as desired */
@@ -187,7 +191,7 @@ namespace AddingLogicToConsoleApplications {
             {
                 myString = myStrings[i];
                 periodLocation = myString.IndexOf(".");
-                
+
                 string mySentence;
                 // extract sentences from each string and display them one at a time
                 while (periodLocation != -1)
