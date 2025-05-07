@@ -106,10 +106,9 @@ namespace AddingLogicToConsoleApplications {
             /* Tests, uncomment as desired */
             // booleanTests();
             // coinFlip();
-            Console.Write("Enter a level: ");
-            int level = int.Parse(Console.ReadLine());
-            Console.WriteLine("You entered " + level);
-            businessRules("Admin|Manager", level);
+            // businessRules();
+            // codeBlocksAndVariableScope();
+            challengeActivity();
             /* end of test options */
 
             Console.WriteLine("\nPress any key to exit...");
@@ -117,13 +116,71 @@ namespace AddingLogicToConsoleApplications {
         }
 
 
+        static void challengeActivity() {
+            /* ORIGINAL CODE -- TO-FIX! */
+            // int[] numbers = { 4, 8, 15, 16, 23, 42 };
+            // foreach (int number in numbers){
+            //     int total;
+            //     total += number;
+            //     if (number == 42)
+            //         bool found = true;
+            // }
+            // if (found) 
+            //     Console.WriteLine("Set contains 42");
+            // Console.WriteLine($"Total: {total}");
+            
+            int[] numbers = { 4, 8, 15, 16, 23, 42 };
+
+            int total = 0;
+            bool found = false;
+            // loop through the array and calculate the total
+            foreach (int number in numbers) {
+                total += number;
+                // denote if 42 is found in the list of numbers
+                if (number == 42)
+                    found = true;
+            }
+            if (found) 
+                Console.WriteLine("Set contains 42");
+            Console.WriteLine($"Total: {total}");
+        }
+        
+        static void codeBlocksAndVariableScope() {
+            bool flag = true;
+            int number = 0;
+            if(flag) {
+                number = 20;
+                Console.WriteLine($"Inside the code block, number = {number}");
+            }
+            number = 10;
+            Console.WriteLine($"Outside the code block, number = {number}");
+        
+            int int1 = 5;
+            if(int1 > 0) {
+                int int2 = 6;
+                int1 += int2;
+            }
+            Console.WriteLine($"int1 = {int1}"); // int2 is not accessible here, so this will throw an error
+        }
+
 
         /**
          *  Business rules simulation
          *  - string comparison [string.Contains() method]
          *  - conditional operator (ternary)
          */
-        static void businessRules(string permission, int level) {
+        static void businessRules() {
+            // gatjhering string for permission (no validation)
+            Console.Write("Enter a permission level (Admin, Manager, User): ");
+            string permission = Console.ReadLine();
+            if(permission == null || permission.Length == 0)
+                permission = "Admin|Manager";
+            Console.WriteLine($"You entered {((permission=="Admin|Manager")?"(default) ":"")}{permission}");
+            // gathering integer for level (no validation)
+            Console.Write("Enter a level: "); 
+            int level = int.Parse(Console.ReadLine()); 
+            Console.WriteLine("You entered " + level);
+
             if(permission.Contains("Admin"))
                 Console.WriteLine($"Welcome, {((level > 55) ? "Super " : "")}Admin user.");
             else if(permission.Contains("Manager") && level >= 20)
