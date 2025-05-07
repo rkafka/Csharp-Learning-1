@@ -133,10 +133,57 @@ namespace AddingLogicToConsoleApplications {
             //     Console.WriteLine(current);
             // } while (current != 7);
 
-            textGame1(); // text-based game simulation
+            // textGame1(); // text-based game simulation
 
-            
+            string? readResult;
+            bool validEntry = false;
+            Console.Write("Enter a string containing at least three characters:  ");
+            do {
+                readResult = Console.ReadLine();
+                if(readResult != null) {
+                    if(readResult.Length >= 3) 
+                        validEntry = true;
+                    else
+                        Console.WriteLine("Your input is invalid, please try again.");
+                }
+            } while(validEntry == false);
 
+            Console.Write($"\nEnter an integer value between 5 and 10:  ");
+            do {
+                int inputInteger;
+                if(int.TryParse(Console.ReadLine(), out inputInteger)) {
+                    if(inputInteger >= 5 && inputInteger <= 10) {
+                        Console.WriteLine($"Your input value {inputInteger} was accepted.");
+                        break;
+                    }
+                    else
+                        Console.WriteLine("Your input was not in the correct range (5-10), please try again.");
+                } else {
+                    Console.WriteLine("Your input was not an integer, please try again.");
+                }
+            } while(true);
+
+            Console.Write("\nEnter your role name (Administrator, Manager, User):  ");
+            do {
+                string? role = Console.ReadLine();
+                if(role == "Administrator" || role == "Manager" || role == "User") {
+                    Console.WriteLine($"Your input value ({role}) has been accepted.");
+                    break;
+                } else {
+                    Console.WriteLine("Your input was not a valid role name, please try again.");
+                }
+            } while(true);
+
+           string[] myStrings = { 
+                "I like pizza. I like roast chicken. I like salad", 
+                "I like all three of the menu choices" 
+            };
+            foreach (string myString in myStrings) {
+                int periodLocation = myString.IndexOf('.');
+                do {
+                    
+                } while(periodLocation != -1);
+            }
         }
 
         static bool textGame1() {
