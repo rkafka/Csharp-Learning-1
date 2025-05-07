@@ -94,8 +94,63 @@ namespace GuidedProject2_RJK {
                 }
 
                 Console.WriteLine($"You selected menu option {menuSelection}.");
-                Console.WriteLine("Press the Enter key to continue");
+                switch(menuSelection) {
+                    case "1":
+                        for(int i = 0; i < maxPets; i++)
+                        {
+                            Console.WriteLine(ourAnimals[i, 0]);
+                            Console.WriteLine("\t" + ourAnimals[i, 1]);
+                            Console.WriteLine("\t" + ourAnimals[i, 2]);
+                            Console.WriteLine("\t" + ourAnimals[i, 3]);
+                            Console.WriteLine("\t" + ourAnimals[i, 4]);
+                            Console.WriteLine("\t" + ourAnimals[i, 5]);
+                            Console.WriteLine();
+                        }
+                        
+                        Console.WriteLine("Press the Enter key to continue.");
+                        readResult = Console.ReadLine();
+                        break;
+                    case "2":
+                        Console.WriteLine("this app feature is coming soon - please check back to see progress.");
+                        Console.WriteLine("Press the Enter key to continue.");
+                        readResult = Console.ReadLine();
+                        break;
+                    case "3":
+                        Console.WriteLine("Challenge Project - please check back to see progress.");
+                        Console.WriteLine("Press the Enter key to continue.");
+                        readResult = Console.ReadLine();
+                        break;
+                    case "4":
+                        Console.WriteLine("Challenge Project - please check back to see progress.");
+                        Console.WriteLine("Press the Enter key to continue.");
+                        readResult = Console.ReadLine();
+                        break;
+                    case "5":
+                        Console.WriteLine("UNDER CONSTRUCTION - please check back to see progress.");
+                        Console.WriteLine("Press the Enter key to continue.");
+                        readResult = Console.ReadLine();
+                        break; 
+                    case "6":
+                        Console.WriteLine("UNDER CONSTRUCTION - please check back to see progress.");
+                        Console.WriteLine("Press the Enter key to continue.");
+                        readResult = Console.ReadLine();
+                        break;
+                    case "7":
+                        Console.WriteLine("UNDER CONSTRUCTION - please check back to see progress.");
+                        Console.WriteLine("Press the Enter key to continue.");
+                        readResult = Console.ReadLine();
+                        break;
+                    case "8":
+                        Console.WriteLine("UNDER CONSTRUCTION - please check back to see progress.");
+                        Console.WriteLine("Press the Enter key to continue.");
+                        readResult = Console.ReadLine();
+                        break;
+                    default:
+                        break;
+                }
 
+                
+                Console.WriteLine("Press the Enter key to continue");
                 // pause code execution
                 readResult = Console.ReadLine();
             } while(menuSelection != "exit");
