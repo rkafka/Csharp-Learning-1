@@ -378,25 +378,79 @@ do
         //
         case "5":
             Console.WriteLine("UNDER CONSTRUCTION - please check back to see progress.");
+            
+            
+            Console.Write("Please enter the animal ID of the pet whose age you want to edit.\nOptions:");
+            for (int i = 0; i < maxPets; i++) {
+                // Skip over any animal in the array with a pet ID set to the default val
+                if (ourAnimals[i, 0] != "ID #: ") {
+                    // [ID#] = "nickname", age
+                    Console.Write($"  [{ourAnimals[i, 0].Substring(idPrefix)}] = \"{ourAnimals[i, 3].Substring(nicknamePrefix)},\" {ourAnimals[i, 2].Substring(agePrefix)} years old\n");
+                }
+            }
+
+            string? animalIDToEdit = "";
+            int desiredIndex = -1;
+            do {
+                animalIDToEdit = Console.ReadLine();
+                for(int i = 0; i < maxPets; i++) {
+                    if( ourAnimals[i,0] == (idPrefix+animalIDToEdit)) {
+                        desiredIndex = i;
+                        break;
+                    }
+                }
+            } while(animalIDToEdit != "exit" && desiredIndex == -1);
+            
+            bool valid5 = false;
+
+            // handle Age
+            string currentAge = ourAnimals[desiredIndex, 2].Substring(agePrefix.Length);
+            int petAge = -1;
+            do
+            {
+                Console.Write($"      |-[INPUT]-> Pet's age in years:  ");
+                readResult = Console.ReadLine();
+                if (readResult != null)
+                {
+                    animalAge = readResult.ToLower();
+                    valid5 = int.TryParse(animalAge, out petAge);
+                    ourAnimals[desiredIndex, 2] = "Age: " + petAge.ToString();
+                }
+            } while (valid5 == false);
+            Console.WriteLine($"      |---> {ourAnimals[desiredIndex, 0].Substring(idPrefix.Length)}'s " +
+                                $"age updated to {petAge.ToString()}.");
+
+            
+            // Done, return to the main menu
             Console.WriteLine("Press the Enter key to continue.");
             readResult = Console.ReadLine();
             break;
         case "6":
             Console.WriteLine("UNDER CONSTRUCTION - please check back to see progress.");
+            
+            
+            // Done, return to the main menu
             Console.WriteLine("Press the Enter key to continue.");
             readResult = Console.ReadLine();
             break;
         case "7":
             Console.WriteLine("UNDER CONSTRUCTION - please check back to see progress.");
+            
+            
+            // Done, return to the main menu
             Console.WriteLine("Press the Enter key to continue.");
             readResult = Console.ReadLine();
             break;
         case "8":
             Console.WriteLine("UNDER CONSTRUCTION - please check back to see progress.");
+            
+            
+            // Done, return to the main menu
             Console.WriteLine("Press the Enter key to continue.");
             readResult = Console.ReadLine();
             break;
         case "9":
+            // signal to exit the program
             menuSelection = "exit";
             break;
         default:
