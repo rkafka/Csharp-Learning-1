@@ -102,6 +102,57 @@ using Microsoft.VisualBasic;
 
 // }
 
+namespace WorkWithVariableData {
+    class Program {
+        static void Main(string[] args) {
+            Console.WriteLine("\n[] Work with Variable Data in C# [] > | . . .\n");
+            
+            integralTypes(); // integral types
+            floatingPointTypes(); // floating point types
+            referenceTypes();
+                
+        }
+
+        /**
+         *  Integral types
+         *  - signed and unsigned integral types
+         *  - min/max values for each type
+         */
+        static void integralTypes() {
+
+            Console.WriteLine("Signed integral types:");
+            Console.WriteLine($"sbyte  : {sbyte.MinValue} to {sbyte.MaxValue}");
+            Console.WriteLine($"short  : {short.MinValue} to {short.MaxValue}");
+            Console.WriteLine($"int    : {int.MinValue} to {int.MaxValue}");
+            Console.WriteLine($"long   : {long.MinValue} to {long.MaxValue}");
+            Console.WriteLine("");
+
+            Console.WriteLine("Unsigned integral types:");
+            Console.WriteLine($"byte   : {byte.MinValue} to {byte.MaxValue}");
+            Console.WriteLine($"ushort : {ushort.MinValue} to {ushort.MaxValue}");
+            Console.WriteLine($"uint   : {uint.MinValue} to {uint.MaxValue}");
+            Console.WriteLine($"ulong  : {ulong.MinValue} to {ulong.MaxValue}");
+            Console.WriteLine("");
+        }
+
+        static void floatingPointTypes() {
+            Console.WriteLine("Floating point types:");
+            Console.WriteLine($"float  : {float.MinValue} to {float.MaxValue} (with ~6-9 digits of precision)");
+            Console.WriteLine($"double : {double.MinValue} to {double.MaxValue} (with ~15-17 digits of precision)");
+            Console.WriteLine($"decimal: {decimal.MinValue} to {decimal.MaxValue} (with 28-29 digits of precision)");
+            Console.WriteLine("");
+        }
+        static void referenceTypes() {
+            int[] ref_A= new int[1];
+            ref_A[0] = 2;
+            int[] ref_B = ref_A;
+            ref_B[0] = 5;
+            Console.WriteLine("--Reference Types--");
+            Console.WriteLine($"ref_A[0]: {ref_A[0]}");
+            Console.WriteLine($"ref_B[0]: {ref_B[0]}");
+        }
+    }
+}
 
 namespace AddingLogicToConsoleApplications {
     class Program {
@@ -118,7 +169,7 @@ namespace AddingLogicToConsoleApplications {
             // switchCaseTests(); // BRANCH FLOW USING SWITCH CASE
             // iterationLoops(); // FOR, FOREACH LOOPS
             // challengeActivity_ForLoops();
-            whileLoops(); // WHILE, DO-WHILE LOOPS
+            // whileLoops(); // WHILE, DO-WHILE LOOPS
 
             /* end of test options */
 
