@@ -3,19 +3,154 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Security;
 using Microsoft.VisualBasic;
+using primary;
+
+Console.WriteLine();
+CastingAndConverting.Execute(args);
+Console.WriteLine();
 
 /* TO RUN: "dotnet build ; dotnet run" */
 
 
 namespace primary {
-    class Program {
-        static void Main(string[] args) {
+    class CastingAndConverting
+    {
+        public static void Execute(string[] args)
+        {
+            Console.WriteLine("[] Casting and Converting in C# [] > | . . .\n");
+
+            // WhyCastingAndStrings();
+            // CastingVsConverting();
+            // TryParsing();
+            // miniChallenge1();
+            miniChallenge2();
+
+
+        }
+
+        static void miniChallenge2()
+        {
+            int value1 = 11;
+            decimal value2 = 6.2m;
+            float value3 = 4.3f;
+
+            // Your code here to set result1
+            int result1 = Convert.ToInt32(value1/value2);
+            // Hint: You need to round the result to nearest integer (don't just truncate)
+            Console.WriteLine($"Divide value1 by value2, display the result as an int: {result1}");
+
+            // Your code here to set result2
+            decimal result2 = value2 / (decimal)value3;
+            //
+            Console.WriteLine($"Divide value2 by value3, display the result as a decimal: {result2}");
+
+            // Your code here to set result3
+            float result3 = value3 / value1;
+            //
+            Console.WriteLine($"Divide value3 by value1, display the result as a float: {result3}");
+        }
+
+        static void miniChallenge1()
+        {
+            string[] values = { "12.3", "45", "ABC", "11", "DEF" };
+
+            /* RULES:
+                1) IF the value is alphabetical, concatenate into a message
+                2) IF the value is numeric, add it to the total
+            */
+            string message = "";
+            decimal total = 0m;
+
+            foreach (string value in values)
+            {
+                if (decimal.TryParse(value, out decimal number))
+                    total += number;
+                else
+                    message += value;
+            }
+
+            Console.WriteLine($"Message: {message}");
+            Console.WriteLine($"Total: {total}");
+
+        }
+
+        static void TryParsing()
+        {
+            // WILL CAUSE AN EXCEPTION
+            // string name = "Bob";
+            // Console.WriteLine(int.Parse(name)); // throws FormatException
+            // ➥ System.FormatException: 'Input string was not in a correct format.'
+
+            string value = "102";
+            int result = -1;
+            //
+            if (int.TryParse(value, out result))
+            {
+                Console.WriteLine($"Parsed value: {result}");
+            }
+            else
+            {
+                Console.WriteLine("Failed to parse the value.");
+            }
+            Console.WriteLine($"Result+50 = {result + 50}\n");
+
+            value = "CAN'T PARSE THIS";
+            result = -1;
+            // TryParse will not throw an exception, but will return false
+            if (int.TryParse(value, out result))
+            {
+                Console.WriteLine($"Parsed value: {result}");
+            }
+            else
+            {
+                Console.WriteLine("Failed to parse the value.");
+            }
+            if (result >= 0)
+                Console.WriteLine($"Result+50 = {result + 50}");
+
+        }
+
+        static void WhyCastingAndStrings()
+        {
             int first = 2;
             string second = "4";
             string result = first + second;
-            Console.WriteLine(result);
+            Console.WriteLine("string = int + string  -->  " + result + "\n");
+
+            decimal myDecimal = 1.23456789m;
+            float myFloat = (float)myDecimal;
+            Console.WriteLine($"Decimal: {myDecimal}");
+            Console.WriteLine($"Float  : {myFloat}\n");
+
+            int first2 = 5;
+            int second2 = 7;
+            string result2 = first2.ToString() + second2.ToString();
+            Console.WriteLine($"ToString -> {result2}");
+            string value1 = "5";
+            string value2 = "7";
+            int resultC = Convert.ToInt32(value1) * Convert.ToInt32(value2);
+            Console.WriteLine($"Convert.ToInt32() -> {resultC}");
+        }
+
+        static void CastingVsConverting()
+        {
+            // Casting vs Converting
+            Console.WriteLine("Casting vs Converting:");
+            // Casting is a direct conversion, which truncates decimal values
+            Console.WriteLine("\t[Casting]");
+            int valCasted1 = (int)1.5m; // casting, truncates
+            Console.WriteLine("\t\t(int)1.5m  \t\t   = " + valCasted1);
+            int valCasted2 = (int)1.99m; // casting, truncates
+            Console.WriteLine("\t\t(int)1.99m \t\t   = " + valCasted2);
+            // Converting w/ Convert.ToInt32() rounds the value to the nearest whole number
+            Console.WriteLine("\t[Converting]");
+            int valConverted1 = Convert.ToInt32(1.5m); // converting, rounds (up in this case)
+            Console.WriteLine("\t\tConvert.toInt32(1.5m)      = " + valConverted1);
+            int valConverted2 = Convert.ToInt32(1.499999m); // converting, rounds (down in this case)
+            Console.WriteLine("\t\tConvert.toInt32(1.499999m) = " + valConverted2);
         }
     }
 }
@@ -111,9 +246,12 @@ namespace primary {
 
 // }
 
-namespace WorkWithVariableData {
-    class Program {
-        static void Execute(string[] args) {
+namespace WorkWithVariableData
+{
+    class Program
+    {
+        static void Execute(string[] args)
+        {
             Console.WriteLine("\n[] Work with Variable Data in C# [] > | . . .\n");
 
             integralTypes(); // integral types
@@ -127,7 +265,8 @@ namespace WorkWithVariableData {
             *  - signed and unsigned integral types
             *  - min/max values for each type
             */
-        static void integralTypes() {
+        static void integralTypes()
+        {
 
             Console.WriteLine("Signed integral types:");
             Console.WriteLine($"sbyte  : {sbyte.MinValue} to {sbyte.MaxValue}");
@@ -144,14 +283,16 @@ namespace WorkWithVariableData {
             Console.WriteLine("");
         }
 
-        static void floatingPointTypes() {
+        static void floatingPointTypes()
+        {
             Console.WriteLine("Floating point types:");
             Console.WriteLine($"float  : {float.MinValue} to {float.MaxValue} (with ~6-9 digits of precision)");
             Console.WriteLine($"double : {double.MinValue} to {double.MaxValue} (with ~15-17 digits of precision)");
             Console.WriteLine($"decimal: {decimal.MinValue} to {decimal.MaxValue} (with 28-29 digits of precision)");
             Console.WriteLine("");
         }
-        static void referenceTypes() {
+        static void referenceTypes()
+        {
             int val_A = 2;
             int val_B = val_A;
             val_B = 5;
@@ -494,13 +635,23 @@ namespace AddingLogicToConsoleApplications {
         static void businessRules() {
             // gatjhering string for permission (no validation)
             Console.Write("Enter a permission level (Admin, Manager, User): ");
-            string permission = Console.ReadLine();
+            string? permission = Console.ReadLine();
             if(permission == null || permission.Length == 0)
                 permission = "Admin|Manager";
             Console.WriteLine($"You entered {((permission=="Admin|Manager")?"(default) ":"")}{permission}");
             // gathering integer for level (no validation)
             Console.Write("Enter a level: "); 
-            int level = int.Parse(Console.ReadLine()); 
+            string? levelInput = Console.ReadLine();
+            int? level = null;
+            if (!string.IsNullOrEmpty(levelInput))
+            {
+                level = int.Parse(levelInput);
+            }
+            else
+            {
+                Console.WriteLine("No input provided. Defaulting level to 0.");
+                level = 0;
+            }
             Console.WriteLine("You entered " + level);
 
             if(permission.Contains("Admin"))
