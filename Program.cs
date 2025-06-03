@@ -9,7 +9,16 @@ using Microsoft.VisualBasic;
 /* TO RUN: "dotnet build ; dotnet run" */
 
 
-
+namespace primary {
+    class Program {
+        static void Main(string[] args) {
+            int first = 2;
+            string second = "4";
+            string result = first + second;
+            Console.WriteLine(result);
+        }
+    }
+}
 
 
 // Random dice = new Random(); // Random dice = new();
@@ -104,20 +113,20 @@ using Microsoft.VisualBasic;
 
 namespace WorkWithVariableData {
     class Program {
-        static void Main(string[] args) {
+        static void Execute(string[] args) {
             Console.WriteLine("\n[] Work with Variable Data in C# [] > | . . .\n");
-            
+
             integralTypes(); // integral types
             floatingPointTypes(); // floating point types
             referenceTypes();
-                
+
         }
 
         /**
-         *  Integral types
-         *  - signed and unsigned integral types
-         *  - min/max values for each type
-         */
+            *  Integral types
+            *  - signed and unsigned integral types
+            *  - min/max values for each type
+            */
         static void integralTypes() {
 
             Console.WriteLine("Signed integral types:");
@@ -143,7 +152,15 @@ namespace WorkWithVariableData {
             Console.WriteLine("");
         }
         static void referenceTypes() {
-            int[] ref_A= new int[1];
+            int val_A = 2;
+            int val_B = val_A;
+            val_B = 5;
+
+            Console.WriteLine("--Value Types--");
+            Console.WriteLine($"val_A: {val_A}");
+            Console.WriteLine($"val_B: {val_B}");
+
+            int[] ref_A = new int[1];
             ref_A[0] = 2;
             int[] ref_B = ref_A;
             ref_B[0] = 5;
