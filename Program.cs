@@ -9,13 +9,93 @@ using Microsoft.VisualBasic;
 using primary;
 
 Console.WriteLine();
-CastingAndConverting.Execute(args);
+// CastingAndConverting.Execute(args);
+ArrayOperations.Execute(args);
 Console.WriteLine();
 
 /* TO RUN: "dotnet build ; dotnet run" */
 
 
 namespace primary {
+    class ArrayOperations
+    {
+        public static void Execute(string[] args)
+        {
+            // SortAndReverse();
+            // ClearAndResize();
+            SplitAndJoin();
+
+
+        }
+
+        static void SplitAndJoin()
+        {
+            // Reversing 
+            string value = "abc123";
+            char[] valueArray = value.ToCharArray();
+            Array.Reverse(valueArray);
+            string result = new string(valueArray);
+            Console.WriteLine(result);
+        }
+
+        static void ClearAndResize()
+        {
+            string[] pallets = ["B14", "A11", "B12", "A13"];
+            Console.WriteLine("Before: " + pallets[0]);
+
+            Array.Clear(pallets, 0, 2);
+            Console.WriteLine("After: " + pallets[0] + "\n");
+
+            Console.WriteLine($"Clearing 2 ... count: {pallets.Length}");
+            foreach (var pallet in pallets)
+            {
+                Console.WriteLine($"-- {pallet}");
+            }
+
+            if (pallets[0] != null)
+                Console.WriteLine("\n" + pallets[0].ToLower());
+            else
+                Console.WriteLine("\nOh no darn it failed (as expected).");
+
+            Array.Resize(ref pallets, 6);
+            Console.WriteLine($"Resizing 6 ... count: {pallets.Length}");
+            pallets[4] = "C01";
+            pallets[5] = "C02";
+            foreach (var pallet in pallets)
+            {
+                Console.WriteLine($"-- {pallet}");
+            }
+
+            Array.Resize(ref pallets, 3);
+            Console.WriteLine($"Resizing 3 ... count: {pallets.Length}");
+
+        }
+
+        static void SortAndReverse()
+        {
+            string[] pallets = ["B14", "A11", "B12", "A13"];
+            Console.WriteLine("Original:");
+            foreach (var pallet in pallets)
+            {
+                Console.WriteLine($"-- {pallet}");
+            }
+
+            Console.WriteLine("\nSorted...");
+            Array.Sort(pallets);
+            foreach (var pallet in pallets)
+            {
+                Console.WriteLine($"-- {pallet}");
+            }
+
+            Console.WriteLine("\nReversed...");
+            Array.Reverse(pallets);
+            foreach (var pallet in pallets)
+            {
+                Console.WriteLine($"-- {pallet}");
+            }
+        }
+    }
+
     class CastingAndConverting
     {
         public static void Execute(string[] args)
@@ -38,7 +118,7 @@ namespace primary {
             float value3 = 4.3f;
 
             // Your code here to set result1
-            int result1 = Convert.ToInt32(value1/value2);
+            int result1 = Convert.ToInt32(value1 / value2);
             // Hint: You need to round the result to nearest integer (don't just truncate)
             Console.WriteLine($"Divide value1 by value2, display the result as an int: {result1}");
 
