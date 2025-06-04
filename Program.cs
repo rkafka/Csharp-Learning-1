@@ -24,8 +24,23 @@ namespace primary {
             // SortAndReverse();
             // ClearAndResize();
             // SplitAndJoin();
-            ReverseWordsInASentence();
+            // ReverseWordsInASentence();
+            ParseSortTagOrders();
 
+        }
+
+        static void ParseSortTagOrders()
+        {
+            string orderStream = "B123,C234,A345,C15,B177,G3003,C235,B179";
+            //
+            string[] orders = orderStream.Split(",");
+            //
+            Array.Sort(orders);
+            //
+            foreach (string order in orders)
+            {
+                Console.WriteLine($"{order}{(order.Length == 4 ? "" : "\t- Error")}");
+            }
         }
 
         static void ReverseWordsInASentence()
@@ -39,7 +54,7 @@ namespace primary {
             {
                 char[] cArray = words[i].ToCharArray();
                 Array.Reverse(cArray);
-                reversedWords[i] = String.Join("",cArray);
+                reversedWords[i] = String.Join("", cArray);
             }
             // join the reveresed words together
             string result = String.Join(" ", reversedWords);
