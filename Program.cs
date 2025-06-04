@@ -23,9 +23,28 @@ namespace primary {
         {
             // SortAndReverse();
             // ClearAndResize();
-            SplitAndJoin();
+            // SplitAndJoin();
+            ReverseWordsInASentence();
 
+        }
 
+        static void ReverseWordsInASentence()
+        {
+            string pangram = "The quick brown fox jumps over the lazy dog";
+            // split from full setnence in substrings of each word
+            string[] words = pangram.Split(" ");
+            // reverse the words
+            string[] reversedWords = new string[words.Length];
+            for (int i = 0; i < words.Length; i++)// word in words)
+            {
+                char[] cArray = words[i].ToCharArray();
+                Array.Reverse(cArray);
+                reversedWords[i] = String.Join("",cArray);
+            }
+            // join the reveresed words together
+            string result = String.Join(" ", reversedWords);
+            // output
+            Console.WriteLine(result);
         }
 
         static void SplitAndJoin()
