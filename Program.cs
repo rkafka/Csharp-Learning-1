@@ -36,6 +36,15 @@ namespace primary {
             Array.Reverse(valueArray);
             string result = new string(valueArray);
             Console.WriteLine(result);
+
+            result = string.Join(",", valueArray);
+            Console.WriteLine(result);
+
+            string[] items = result.Split(',');
+            foreach (string item in items)
+            {
+                Console.WriteLine(item);
+            }
         }
 
         static void ClearAndResize()
