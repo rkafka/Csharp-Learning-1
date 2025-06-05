@@ -3,6 +3,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
 using Microsoft.VisualBasic;
@@ -10,13 +11,106 @@ using primary;
 
 Console.WriteLine();
 // CastingAndConverting.Execute(args);
-ArrayOperations.Execute(args);
+// ArrayOperations.Execute(args);
+formatAlphaNumericData.Execute(args);
 Console.WriteLine();
 
 /* TO RUN: "dotnet build ; dotnet run" */
 
 
 namespace primary {
+
+    class formatAlphaNumericData
+    {
+        public static void Execute(string[] args)
+        {
+            // StringFormattingBasics();
+            // PaddingAndAlignment();
+            StringInterpolationToFormLetter();
+        }
+
+        static void StringInterpolationToFormLetter()
+        {
+            string customerName     = "Ms. Barros";
+            string currentProduct   = "Magic Yield";
+            int currentShares       = 2975000;
+            decimal currentReturn   = 0.1275m;
+            decimal currentProfit   = 55000000.0m;
+
+            string newProduct = "Glorious Future";
+            decimal newReturn = 0.13125m;
+            decimal newProfit = 63000000.0m;
+
+            // Your logic here
+            string message = $"Dear {customerName},\n\n";
+            message += $"As a customer of our {currentProduct} offering we are excited to tell you about a new \nfinancial product that would dramatically increase your return.\n\n";
+            message += $"Currently, you own {currentShares:N2} at a return of {currentReturn:P2}.\n\n";
+            message += $"Our new product, {newProduct} offers a return of {newReturn:P2}. ";
+            message += $"Given your current \nvolume, your potential profit would be {newProfit:C2}.\n\n";
+            Console.Write(message);
+            //
+
+            Console.WriteLine("Here's a quick comparison:\n");
+
+            string comparisonMessage = "";
+
+            // Your logic here
+            comparisonMessage += currentProduct.PadRight(20) + $"{currentReturn:P2}".PadRight(10) + $"{currentProfit:C2}\n";
+            comparisonMessage += newProduct.PadRight(20) + $"{newReturn:P2}".PadRight(10) + $"{newProfit:C2}";
+            //
+
+            Console.WriteLine(comparisonMessage);
+        }
+
+        static void PaddingAndAlignment()
+        {
+            // Intro to padding
+            string input = "Pad this";
+            Console.WriteLine(input.PadLeft(12));
+            Console.WriteLine(input);
+            Console.WriteLine(input.PadLeft(5));
+            Console.WriteLine(input.PadRight(12) + input + "\n");
+            // Overloaded version
+            Console.WriteLine(input.PadLeft(12, '-'));
+            Console.WriteLine(input.PadRight(12, '-') + "\n");
+
+            //
+            string paymentID = "769C";
+            string payeeName = "Mr. George Romero";
+            decimal paymentAmount = 5000.00m;
+            var formattedLine = paymentID.PadRight(6);
+            formattedLine += payeeName.PadRight(24);
+            formattedLine += $"{paymentAmount:C2}".PadLeft(10);
+            Console.WriteLine("".PadLeft(40, '-'));
+            Console.WriteLine(formattedLine);
+        }
+
+        static void StringFormattingBasics()
+        {
+            string first = "Hello";
+            string second = "World";
+            string result = string.Format("{0} {1}!", first, second);
+            Console.WriteLine(result);
+            Console.WriteLine("{0} {0} {1} {0} -test", first, second);
+            Console.WriteLine($"{first} {second}");
+
+            decimal price = 123.45m;
+            int discount = 50;
+            Console.WriteLine($"Price: {price:C} (Save {discount:C})");
+            decimal measurement = 123456.78912m;
+            Console.WriteLine($"Measurement: {measurement:N2} units");
+
+            decimal tax = .36785m;
+            Console.WriteLine($"Tax rate: {tax:P}");
+
+            Console.WriteLine();
+            price = 67.55m;
+            decimal salePrice = 59.99m;
+            string yourDiscount = String.Format("You saved {0:C2} off the regular {1:C2} price.", (price - salePrice), price);
+            Console.WriteLine(yourDiscount);
+        } 
+    }
+
     class ArrayOperations
     {
         public static void Execute(string[] args)
