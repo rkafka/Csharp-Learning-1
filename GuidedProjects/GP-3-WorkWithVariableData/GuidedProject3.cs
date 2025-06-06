@@ -143,14 +143,21 @@
                     case "2":
                         // Display all dogs with a specified characteristic
 
-                        string dogCharacteristic = "";
-                        while (dogCharacteristic == "")
+                        string input = "";
+                        string[] dogCharacteristics = new string[1];
+                        while (input == "")
                         {
                             // Prompt user to enter physical characteristics to search for
                             Console.WriteLine($"\nEnter one desired dog characteristics to search for");
                             readResult = Console.ReadLine();
                             if (readResult != null)
-                                dogCharacteristic = readResult.ToLower().Trim();
+                            {
+                                input = readResult.ToLower().Trim();
+                                dogCharacteristics = input.Split(",");
+                                for(int i = 0;  i < dogCharacteristics.Length;  i++)
+                                    dogCharacteristics[i] = dogCharacteristics[i].Trim();
+                            }
+
                         }
                         Console.WriteLine();
 
@@ -159,18 +166,27 @@
                         {
                             if (ourAnimals[i, 1].Contains("dog"))
                             {
-                                string dogDescription = ourAnimals[i, 4] + "\n" + ourAnimals[i, 5];
-                                if (dogDescription.Contains(dogCharacteristic))
+                                string dogDescription = " |  " + ourAnimals[i, 4] + "\n |  " + ourAnimals[i, 5];
+                                bool currentDogMatches = false;
+                                foreach (string characteristic in dogCharacteristics)
                                 {
-                                    noMatchesDog = false;
-                                    Console.WriteLine($"Our dog '{ourAnimals[i, 3].Replace("Nickname: ", "")}' is a match!");
-                                    Console.WriteLine(dogDescription + "\n");
+                                    if (dogDescription.Contains(characteristic))
+                                    {
+                                        noMatchesDog = false;
+                                        currentDogMatches = true;
+                                        Console.WriteLine($"Our dog '{ourAnimals[i, 3].Replace("Nickname: ", "")}' is a \'{characteristic}\' match!");
+                                    }
                                 }
+                                if (currentDogMatches)
+                                {
+                                    Console.WriteLine($" |  {ourAnimals[i, 3]}\n{dogDescription}\n");
+                                }
+
                             }
                         }
-                        if (noMatchesDog)
-                            Console.WriteLine($"Sorry! None of our dogs match the '{dogCharacteristic}' characteristic.\n");
-
+                        if (noMatchesDog) {
+                            Console.Write($"Sorry! None of our dogs are a match for '{input}'\n");
+                        }
                         Console.WriteLine("Press the Enter key to continue.");
                         readResult = Console.ReadLine();
                         break;
