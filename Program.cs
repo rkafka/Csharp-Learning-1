@@ -10,19 +10,42 @@ using Microsoft.VisualBasic;
 // namespaces
 using primary;
 using GuidedProject3;
+using CreatingMethods;
+
+
+// args = Array.Empty<string>();
+if (args.Length > 0 && int.TryParse(args[1], out int arg1))
+{
+    if (arg1 == 1) { Console.Clear(); }
+}
 
 Console.WriteLine();
 // CastingAndConverting.Execute(args);
 // ArrayOperations.Execute(args);
 // formatAlphaNumericData.Execute(args);
 // modifyStringsWithBuiltInMethods.Execute(args);
-GP3.Execute(Array.Empty<string>());
+// GP3.Execute(args);
+MethodBasics.Execute(args);
 Console.WriteLine();
 
 /* TO RUN: "dotnet build ; dotnet run" */
 
+namespace CreatingMethods
+{
+    class MethodBasics
+    {
+        public static void Execute(string[] args) {
+            CountTo(5);
+        }
+        static void CountTo(int max) {
+            for (int i = 1; i <= max; i++)
+                Console.Write($"{i}{((i == max) ? "" : ", ")}");
+        }
+    }
+}
 
-namespace primary {
+namespace primary
+{
 
     class modifyStringsWithBuiltInMethods
     {
@@ -48,7 +71,7 @@ namespace primary {
             // char[] numbers = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
             int openingPosition = input.IndexOf("<span>") + "<span>".Length;
             int closingPosition = input.IndexOf("</span>");
-            quantity = input.Substring(openingPosition, closingPosition-openingPosition);
+            quantity = input.Substring(openingPosition, closingPosition - openingPosition);
 
             output = input.Remove(input.IndexOf("<div>"), "<div>".Length);
             output = output.Replace("</div>", "");
