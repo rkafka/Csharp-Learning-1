@@ -12,7 +12,8 @@ using primary;
 Console.WriteLine();
 // CastingAndConverting.Execute(args);
 // ArrayOperations.Execute(args);
-formatAlphaNumericData.Execute(args);
+// formatAlphaNumericData.Execute(args);
+modifyStringsWithBuiltInMethods.Execute(args);
 Console.WriteLine();
 
 /* TO RUN: "dotnet build ; dotnet run" */
@@ -20,22 +21,189 @@ Console.WriteLine();
 
 namespace primary {
 
+    class modifyStringsWithBuiltInMethods
+    {
+        public static void Execute(string[] args)
+        {
+            Console.WriteLine("Modifying Strings with Built-In Methods [] > ...\n");
+            // indexOfAndSubstring();
+            // Console.WriteLine();
+            // indexOfAndLastIndexOf();
+            // Console.WriteLine();
+            // RemoveAndReplace();
+            ExtractReplaceRemove();
+            Console.WriteLine();
+        }
+
+        static void ExtractReplaceRemove()
+        {
+            const string input = "<div><h2>Widgets &trade;</h2><span>5000</span></div>";
+            string quantity = "";
+            string output = "";
+
+            // Your work here
+            // char[] numbers = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+            int openingPosition = input.IndexOf("<span>") + "<span>".Length;
+            int closingPosition = input.IndexOf("</span>");
+            quantity = input.Substring(openingPosition, closingPosition-openingPosition);
+
+            output = input.Remove(input.IndexOf("<div>"), "<div>".Length);
+            output = output.Replace("</div>", "");
+            output = output.Replace("trade", "reg");
+            //
+
+            Console.WriteLine("Quantity: " + quantity);
+            Console.WriteLine("Output:   " + output);
+        }
+
+        static void RemoveAndReplace()
+        {
+            // Remove() to get rid of John Smith and its following padding
+            string data = "12345John Smith          5000  3  ";
+            string updatedData = data.Remove(5, 20);
+            Console.WriteLine(updatedData);
+
+            // Replace() to replace instances of "--" with "-" and "-" with nothing
+            string message = "This--is--ex-amp-le--da-ta";
+            message = message.Replace("--", " ");
+            message = message.Replace("-", "");
+            Console.WriteLine(message);
+        }
+
+        static void indexOfAndLastIndexOf()
+        {
+            string message = "hello there!";
+            int firstH = message.IndexOf('h');
+            int lastH = message.LastIndexOf('h');
+            Console.WriteLine($"For the message: '{message}', the first 'h' is at position {firstH} and the last 'h' is at position {lastH}.");
+            Console.WriteLine();
+
+            message = "(What if) I am (only interested) in the last (set of parentheses)?";
+            int openingPosition = message.LastIndexOf('(') + "(".Length;
+            int closingPosition = message.LastIndexOf(')');
+            int length = closingPosition - openingPosition;
+            Console.WriteLine($"Getting last from: '{message}'");
+            Console.WriteLine(message.Substring(openingPosition, length) + "\n");
+
+            while (message.Contains('('))
+            {
+                openingPosition = message.IndexOf('(') + "(".Length;
+                if (openingPosition >= message.Length | openingPosition == -1 | openingPosition == 0)
+                    break;
+                closingPosition = message.IndexOf(')');
+                // take out substring from message and output current results
+                string result = message.Substring(openingPosition, closingPosition - openingPosition);
+                message = message.Substring(closingPosition + 1).TrimStart(); // increment once to escape closing parenthesis
+                Console.WriteLine($"{result.PadRight(18)} << remaining message:   {message}");
+            }
+            Console.ReadLine();
+
+
+            message = "Help (find) the {opening symbols}";
+            Console.WriteLine($"Searching THIS Message: {message}");
+            char[] openSymbols = { '[', '{', '(' };
+            int startPosition = 5;
+
+            openingPosition = message.IndexOfAny(openSymbols);
+            Console.WriteLine($"Found WITHOUT using startPosition: {message.Substring(openingPosition)}");
+            openingPosition = message.IndexOfAny(openSymbols, startPosition);
+            Console.WriteLine($"Found WITH using startPosition {startPosition}:  {message.Substring(openingPosition)}");
+
+
+
+            message = "(What if) I have [different symbols] but every {open symbol} needs a [matching closing symbol]?";
+            // The IndexOfAny() helper method requires a char array of characters. 
+            // You want to look for:
+            openSymbols = new char[] { '[', '{', '(' };
+            // You'll use a slightly different technique for iterating through 
+            // the characters in the string. This time, use the closing 
+            // position of the previous iteration as the starting index for the 
+            //next open symbol. So, you need to initialize the closingPosition 
+            // variable to zero:
+            closingPosition = 0;
+
+            while (true)
+            {
+                openingPosition = message.IndexOfAny(openSymbols, closingPosition);
+                if (openingPosition == -1) break;
+                string currentSymbol = message.Substring(openingPosition, 1);
+
+                // Now  find the matching closing symbol
+                char matchingSymbol = ' ';
+                switch (currentSymbol)
+                {
+                    case "[":
+                        matchingSymbol = ']';
+                        break;
+                    case "{":
+                        matchingSymbol = '}';
+                        break;
+                    case "(":
+                        matchingSymbol = ')';
+                        break;
+                }
+
+                // To find the closingPosition, use an overload of the IndexOf method to specify 
+                // that the search for the matchingSymbol should start at the openingPosition in the string. 
+                openingPosition += 1;
+                closingPosition = message.IndexOf(matchingSymbol, openingPosition);
+
+                // Finally, use the techniques you've already learned to display the sub-string:
+                length = closingPosition - openingPosition;
+                Console.WriteLine(message.Substring(openingPosition, length));
+            }
+
+        }
+
+        static void indexOfAndSubstring()
+        {
+            string msg = "Find what is (inside the parantheses) desired.";
+
+            int openingPosition = msg.IndexOf('(');
+            int closingPosition = msg.IndexOf(')');
+
+            openingPosition += 1;
+            int lengthToSubstr = closingPosition - openingPosition;
+
+            Console.WriteLine($"{openingPosition}, {closingPosition}:\t\"{msg.Substring(openingPosition, lengthToSubstr)}\"");
+
+
+            const string openSpan = "<span>";
+            const string closeSpan = "</span>";
+
+            msg = "What is the value <span>between the tags</span> as you understand it?";
+            openingPosition = msg.IndexOf(openSpan);
+            closingPosition = msg.IndexOf(closeSpan);
+            openingPosition += openSpan.Length;
+            lengthToSubstr = closingPosition - openingPosition;
+            Console.WriteLine($"{openingPosition}, {closingPosition}:\t\"{msg.Substring(openingPosition, lengthToSubstr)}\"");
+        }
+    }
+
     class formatAlphaNumericData
     {
         public static void Execute(string[] args)
         {
+            string breakLine = "".PadRight(40);
+
+            //
             // StringFormattingBasics();
+            // Console.WriteLine(breakLine);
+
             // PaddingAndAlignment();
+            // Console.WriteLine(breakLine);
+
+            //
             StringInterpolationToFormLetter();
         }
 
         static void StringInterpolationToFormLetter()
         {
-            string customerName     = "Ms. Barros";
-            string currentProduct   = "Magic Yield";
-            int currentShares       = 2975000;
-            decimal currentReturn   = 0.1275m;
-            decimal currentProfit   = 55000000.0m;
+            string customerName = "Ms. Barros";
+            string currentProduct = "Magic Yield";
+            int currentShares = 2975000;
+            decimal currentReturn = 0.1275m;
+            decimal currentProfit = 55000000.0m;
 
             string newProduct = "Glorious Future";
             decimal newReturn = 0.13125m;
@@ -108,7 +276,7 @@ namespace primary {
             decimal salePrice = 59.99m;
             string yourDiscount = String.Format("You saved {0:C2} off the regular {1:C2} price.", (price - salePrice), price);
             Console.WriteLine(yourDiscount);
-        } 
+        }
     }
 
     class ArrayOperations
