@@ -7,13 +7,16 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
 using Microsoft.VisualBasic;
+// namespaces
 using primary;
+using GuidedProject3;
 
 Console.WriteLine();
 // CastingAndConverting.Execute(args);
 // ArrayOperations.Execute(args);
 // formatAlphaNumericData.Execute(args);
-modifyStringsWithBuiltInMethods.Execute(args);
+// modifyStringsWithBuiltInMethods.Execute(args);
+GP3.Execute(Array.Empty<string>());
 Console.WriteLine();
 
 /* TO RUN: "dotnet build ; dotnet run" */
@@ -26,11 +29,11 @@ namespace primary {
         public static void Execute(string[] args)
         {
             Console.WriteLine("Modifying Strings with Built-In Methods [] > ...\n");
-            // indexOfAndSubstring();
-            // Console.WriteLine();
-            // indexOfAndLastIndexOf();
-            // Console.WriteLine();
-            // RemoveAndReplace();
+            indexOfAndSubstring();
+            Console.WriteLine();
+            indexOfAndLastIndexOf();
+            Console.WriteLine();
+            RemoveAndReplace();
             ExtractReplaceRemove();
             Console.WriteLine();
         }
