@@ -148,7 +148,7 @@
                         while (input == "")
                         {
                             // Prompt user to enter physical characteristics to search for
-                            Console.WriteLine($"\nEnter one desired dog characteristics to search for");
+                            Console.WriteLine($"\nEnter one or more comma-separated dog characteristics to search for");
                             readResult = Console.ReadLine();
                             if (readResult != null)
                             {
@@ -161,20 +161,43 @@
                         }
                         Console.WriteLine();
 
+                        // for searching animation
+                        string[] searchingIcons = {".  ", ".. ", "..."};
+                        string[] searchingIconsUpdated = { "/  ", "-- ", " --", "  \\", "  /", " --", "-- ", "\\  ", "   " };
+
+
                         bool noMatchesDog = true;
                         for (int i = 0; i < maxPets; i++)
                         {
                             if (ourAnimals[i, 1].Contains("dog"))
                             {
                                 string dogDescription = " |  " + ourAnimals[i, 4] + "\n |  " + ourAnimals[i, 5];
+
                                 bool currentDogMatches = false;
                                 foreach (string characteristic in dogCharacteristics)
                                 {
+                                    // This is so pointless the search is instant
+                                    //   It literally just slows the mechanism down...
+                                    // But here's the updated search progress indicator that was requested
+                                    for (int timer = 3; timer >= 0; timer--)
+                                    {
+                                        foreach (string icon in searchingIconsUpdated)
+                                        {
+                                            Console.Write($"\rsearching our dog '{ourAnimals[i, 3].Replace("Nickname: ", "")}' "
+                                                        + $"for {characteristic} {icon}");
+                                            Thread.Sleep(100);
+                                        }
+                                    }
+                                    // clearing line
+                                    Console.Write($"\r{new string(' ', Console.WindowWidth - 1)}");
+                                    Console.Write("\r"); // could be done as part of prior statement
+                                    // Console.Write("TEST");
+
                                     if (dogDescription.Contains(characteristic))
                                     {
                                         noMatchesDog = false;
                                         currentDogMatches = true;
-                                        Console.WriteLine($"Our dog '{ourAnimals[i, 3].Replace("Nickname: ", "")}' is a \'{characteristic}\' match!");
+                                        Console.WriteLine($"\rOur dog '{ourAnimals[i, 3].Replace("Nickname: ", "")}' is a \'{characteristic}\' match!");
                                     }
                                 }
                                 if (currentDogMatches)
