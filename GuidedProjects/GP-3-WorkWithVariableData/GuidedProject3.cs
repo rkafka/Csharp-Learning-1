@@ -183,28 +183,71 @@
                                     {
                                         foreach (string icon in searchingIconsUpdated)
                                         {
-                                            Console.Write($"\rsearching our dog '{ourAnimals[i, 3].Replace("Nickname: ", "")}' "
-                                                        + $"for {characteristic} {icon}");
+                                            Console.Write($"\rsearching our dog '{ourAnimals[i, 3].Replace("Nickname: ", "")}' for ");
+                                            Console.ForegroundColor = ConsoleColor.Yellow;
+                                            Console.Write(characteristic);
+                                            Console.ResetColor();
+                                            Console.Write($" {icon} ");
+                                            // Console.Write($"\rsearching our dog '{ourAnimals[i, 3].Replace("Nickname: ", "")}' "
+                                            //             + $"for {characteristic} {icon}");
                                             Thread.Sleep(100);
                                         }
                                     }
                                     // clearing line
                                     Console.Write($"\r{new string(' ', Console.WindowWidth - 1)}");
                                     Console.Write("\r"); // could be done as part of prior statement
-                                    // Console.Write("TEST");
 
                                     if (dogDescription.Contains(characteristic))
                                     {
                                         noMatchesDog = false;
                                         currentDogMatches = true;
-                                        Console.WriteLine($"\rOur dog '{ourAnimals[i, 3].Replace("Nickname: ", "")}' is a \'{characteristic}\' match!");
+                                        Console.Write($"\rOur dog '{ourAnimals[i, 3].Replace("Nickname: ", "")}' is a \'");
+                                        Console.ForegroundColor = ConsoleColor.Yellow;
+                                        Console.Write(characteristic);
+                                        Console.ResetColor();
+                                        Console.WriteLine("' match!");
                                     }
                                 }
                                 if (currentDogMatches)
                                 {
-                                    Console.WriteLine($" |  {ourAnimals[i, 3]}\n{dogDescription}\n");
+                                    // Console.WriteLine($" |  {ourAnimals[i, 3]}\n{dogDescription}\n");
+                                    Console.WriteLine($" |  {ourAnimals[i, 3]}");
+                                    string[] descriptionWords = dogDescription.Split(" ");
+                                    foreach (string word in descriptionWords)
+                                    {
+                                        bool wordFound = false;
+                                        string cleanedWord = word.TrimEnd('.', ',', '!', '?', '\n');
+                                        foreach (string characteristic in dogCharacteristics)
+                                        {
+                                            if (cleanedWord.Equals(characteristic, StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                wordFound = true;
+                                                Console.BackgroundColor = ConsoleColor.DarkYellow;
+                                                Console.Write(cleanedWord);
+                                                Console.ResetColor();
+                                                Console.Write(" ");
+                                            }
+                                            else if (cleanedWord.Contains(characteristic))
+                                            {
+                                                wordFound = true;
+                                                int index = cleanedWord.IndexOf(characteristic);
+                                                Console.Write(cleanedWord.Substring(0, index));
+                                                Console.BackgroundColor = ConsoleColor.DarkYellow;
+                                                Console.Write(cleanedWord.Substring(index, characteristic.Length));
+                                                Console.ResetColor();
+                                                Console.Write(cleanedWord.Substring(index + characteristic.Length));
+                                            }
+                                        }
+                                        // Write the word if it does not contain desired characteristic keyword(s)
+                                        if (!wordFound)
+                                        {
+                                            // Add a space after the word IF it doesn't end in a newline.
+                                            Console.Write($"{word} ");//{((word[word.Length-1] == '\n') ? "" : " ")}");
+                                        }
+                                    }
+                                    // insert a break line to separate the text.
+                                    Console.WriteLine("\n");
                                 }
-
                             }
                         }
                         if (noMatchesDog) {
