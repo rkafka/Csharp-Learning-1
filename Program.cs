@@ -13,6 +13,8 @@ using GuidedProject3;
 using CreatingMethods;
 using System.Reflection.PortableExecutable;
 using System.Net.NetworkInformation;
+using System.Data.SqlTypes;
+using System.ComponentModel.DataAnnotations;
 
 
 // args = Array.Empty<string>();
@@ -28,57 +30,240 @@ Console.WriteLine();
 // formatAlphaNumericData.Execute(args);
 // modifyStringsWithBuiltInMethods.Execute(args);
 // GP3.Execute(args);
-MethodBasics.Execute(args);
+// MethodBasics.Execute(args);
+MethodsThatReturnValues.Execute(args);
 Console.WriteLine();
 
 /* TO RUN: "dotnet build ; dotnet run" */
 
-namespace CreatingMethods
-{
-    class MethodBasics
+namespace Utils {
+    class Helper
     {
-        static int titleNumber = 0;
-        private static Dictionary<string, int> titleCounts = new();
-
-        public static void Execute(string[] args)
+        public static int titleNumber = 0;
+        public static Dictionary<string, int> titleCounts = new();
+        public static void OutputTitle(string title)
         {
-            CountTo(5);
-
-            int[] schedule = { 800, 1200, 1600, 2000 };
-            DisplayAdjustedTimes(schedule, 6, -6);
-
-            string[] students = { "Jenna", "Ayesha", "Carlos", "Viktor" };
-            DisplayStudents(students);
-            DisplayStudents(new string[] { "Robert", "Vanya" });
-
-            string[] ipv4Inputs = { "107.31.1.5", "255.0.0.255", "555..0.555", "255...255" };
-            ValidateIP(ipv4Inputs);
-
-            Exercise_ReusableMethod();
-
-            PrintCircleInfo(12);
-            PrintCircleInfo(24);
-        }
-
-        static void OutputTitle(string title) {
             titleNumber++;
 
-            if (!titleCounts.ContainsKey(title)) {
+            if (!titleCounts.ContainsKey(title))
+            {
                 titleCounts[title] = 1;
                 title = $" {titleNumber}. {title} ";
             }
-            else {
+            else
+            {
                 titleCounts[title]++;
                 title = $" {titleNumber}. {title} ({titleCounts[title]}) ";
             }
 
-            int numLines = Console.WindowWidth - title.Length; 
+            int numLines = Console.WindowWidth - title.Length;
             // if numLines odd, truncation occurs below
             Console.Write("[".PadLeft(numLines / 2, '-') + title);
             Console.Write("]".PadRight(numLines / 2, '-'));
             // Adjust title for numLines' truncation, if needed
             Console.WriteLine(((numLines % 2 == 1) ? "-" : "") + "\n");
         }
+    }
+}
+
+namespace CreatingMethods
+{
+    class MethodsThatReturnValues
+    {
+        public static void Execute(string[] args)
+        {
+            
+        }
+    }
+
+    class MethodBasics
+    {
+
+        public static void Execute(string[] args)
+        {
+            // CountTo(5);
+
+            // int[] schedule = { 800, 1200, 1600, 2000 };
+            // DisplayAdjustedTimes(schedule, 6, -6);
+
+            // string[] students = { "Jenna", "Ayesha", "Carlos", "Viktor" };
+            // DisplayStudents(students);
+            // DisplayStudents(new string[] { "Robert", "Vanya" });
+
+            // string[] ipv4Inputs = { "107.31.1.5", "255.0.0.255", "555..0.555", "255...255" };
+            // ValidateIP(ipv4Inputs);
+
+            // Exercise_ReusableMethod();
+
+            // PrintCircleInfo(12);
+            // PrintCircleInfo(24);
+
+            // PassingByValue();
+            // PassingByReference();
+            // PassingString();
+
+            // OptionalParameters();
+
+            Challenge_DisplayingEmailAddresses();
+        }
+
+        static void Challenge_DisplayingEmailAddresses()
+        {
+            // RJK
+            Utils.Helper.OutputTitle("CHALLENGE: Displaying Email Addresses");
+            // ---
+
+            string[,] corporate =
+            {
+                {"Robert", "Bavin"}, {"Simon", "Bright"},
+                {"Kim", "Sinclair"}, {"Aashrita", "Kamath"},
+                {"Sarah", "Delucchi"}, {"Sinan", "Ali"}
+            };
+
+            string[,] external =
+            {
+                {"Vinnie", "Ashton"}, {"Cody", "Dysart"},
+                {"Shay", "Lawrence"}, {"Daren", "Valdes"}
+            };
+
+            string externalDomain = "hayworth.com";
+            // RJK
+            string internalDomain = "contoso.com";
+            int numAddresses = corporate.GetLength(0) + external.GetLength(0);
+            int curNum = 1;
+            int padding = numAddresses / 10 + 3;
+            int maxAddressLength = -1;
+            // ---
+
+            Console.WriteLine($"{"-".PadRight(padding, '-')}|-----[CORPORATE]{"-".PadRight(10, '-')}");
+            for (int i = 0; i < corporate.GetLength(0); i++)
+            {
+                // display internal email addresses
+                printAddress(firstName: corporate[i, 0], lastName: corporate[i, 1], domainName: internalDomain);
+            }
+
+            Console.WriteLine($"{"-".PadRight(padding, '-')}|-----[EXTERNAL]-{"-".PadRight(10, '-')}");
+            for (int i = 0; i < external.GetLength(0); i++)
+            {
+                // display external email addresses
+                int length = printAddress(firstName: external[i, 0], lastName: external[i, 1], domainName: externalDomain);
+                if (length > maxAddressLength)
+                    maxAddressLength = length;
+            }
+
+            int printAddress(string firstName, string lastName, string domainName = "404.err")
+            {
+                string username = $"{firstName.Substring(0, 2).ToLower()}{lastName.ToLower()}";
+                string emailAddress = $"{username}@{domainName}";
+                Console.WriteLine($"{curNum.ToString().PadRight(padding, ' ')}|  {emailAddress}");
+                curNum++;
+                return emailAddress.Length;
+            }
+        }
+
+        static void OptionalParameters()
+        {
+            Utils.Helper.OutputTitle("Using Optional Parameters");
+            string[] guestList = { "Rebecca", "Nadia", "Noor", "Jante" };
+            string[] RSVPs = new string[10];
+            int count = 0;
+
+            RSVP(name: "Rebecca");
+            RSVP("Nadia", 2, "Nuts", true);
+            RSVP("Linh", 2, "none", false);
+            // order of named arguments doesn't matter as long as they're AFTER positional arguments
+            RSVP("Tony", inviteOnly: true, allergies: "Jackfruit", partySize: 1);
+            RSVP("Noor", 4, inviteOnly: false);
+            RSVP("Jonte", 2, "Stone fruit", false);
+            ShowRSVPs();
+
+            bool RSVP(string name, int partySize = 1, string allergies = "none", bool inviteOnly = true)
+            {
+                bool found = false;
+                if (inviteOnly)
+                {
+                    foreach (string guest in guestList)
+                    {
+                        if (guest.Equals(name))
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                        Console.WriteLine($"Sorry, {name} is not on the guest list.");
+                }
+
+                RSVPs[count] = $"Name: {name},\tParty Size: {partySize},\tAllergies: {allergies},";
+                count++;
+                return found;
+            }
+
+            void ShowRSVPs()
+            {
+                Console.WriteLine("\nTotal RSVPs:");
+                for (int i = 0; i < count; i++)
+                    Console.WriteLine(RSVPs[i]);
+            }
+
+        }
+
+        static void PassingString()
+        {
+            Utils.Helper.OutputTitle("Passing a String");
+            string status = "Healthy";
+            Console.WriteLine($"Start: {status}");
+            SetHealth(status, false);
+            Console.WriteLine($"End: {status}");
+
+            void SetHealth(string status, bool isHealthy)
+            {
+                status = (isHealthy ? "Healthy" : "Unhealthy");
+                Console.WriteLine($"Middle: {status}");
+            }
+            Console.WriteLine();
+        }
+
+        static void PassingByReference()
+        {
+            Utils.Helper.OutputTitle("Passing by REFERENCE");
+            int[] array = { 1, 2, 3, 4, 5 };
+            PrintArray(array);
+            Clear(array);
+            PrintArray(array); // array remains altered OUTSIDE the Clear() scope
+
+            void PrintArray(int[] array)
+            {
+                foreach (int a in array)
+                    Console.Write($"{a} ");
+                Console.WriteLine();
+            }
+            void Clear(int[] array)
+            {
+                for (int i = 0; i < array.Length; i++)
+                    array[i] = 0;
+            }
+            Console.WriteLine();
+        }
+
+        static void PassingByValue()
+        {
+            Utils.Helper.OutputTitle("Passing by VALUE");
+            int a = 3;
+            int b = 4;
+            int c = 0;
+            Multiply(a, b, c);
+            Console.WriteLine($"'global' statement: {a} x {b} = {c}");
+            // a, b, & c are uneffected globally by the changes w/in multiply
+
+            void Multiply(int a, int b, int c)
+            {
+                c = a * b;
+                Console.WriteLine($"inside Multiply() method: {a} x {b} = {c}");
+            }
+        }
+
+
 
         static double pi = 3.14159;
         static void PrintCircleArea(int radius)
@@ -93,7 +278,7 @@ namespace CreatingMethods
         }
         static void PrintCircleInfo(int radius)
         {
-            OutputTitle("Circle Information");
+            Utils.Helper.OutputTitle("Circle Information");
             Console.WriteLine($"Circle with radius of {radius} units");
             PrintCircleArea(radius);
             PrintCircleCircumference(radius);
@@ -102,7 +287,7 @@ namespace CreatingMethods
 
         static void Exercise_ReusableMethod()
         {
-            OutputTitle("Fortune Telling");
+            Utils.Helper.OutputTitle("Fortune Telling");
             Random random = new Random();
             int luck = random.Next(100);
 
@@ -127,7 +312,7 @@ namespace CreatingMethods
         }
         static void ValidateIP(string[] IPs)
         {
-            OutputTitle("Validating IP(s)");
+            Utils.Helper.OutputTitle("Validating IP(s)");
             foreach (string IPv4address in IPs)
                 ValidateIP(IPv4address);
             Console.WriteLine();
@@ -165,7 +350,7 @@ namespace CreatingMethods
 
         static void DisplayStudents(string[] students)
         {
-            OutputTitle("Displaying Students");
+            Utils.Helper.OutputTitle("Displaying Students");
             foreach (string studentName in students)
                 Console.Write($"{studentName}, ");
             Console.Write("\b\b\n\n");
@@ -173,7 +358,7 @@ namespace CreatingMethods
 
         static void DisplayAdjustedTimes(int[] times, int currentGMT, int newGMT)
         {
-            OutputTitle("Displaying ADJUSTED Times");
+            Utils.Helper.OutputTitle("Displaying ADJUSTED Times");
             int diff = 0;
             if (Math.Abs(newGMT) > 12 || Math.Abs(currentGMT) > 12)
                 Console.WriteLine("Invalid GMT");
@@ -192,7 +377,7 @@ namespace CreatingMethods
 
         static void CountTo(int max)
         {
-            OutputTitle("Counting to 5");
+            Utils.Helper.OutputTitle("Counting to 5");
             for (int i = 1; i <= max; i++)
                 Console.Write($"{i}{((i == max) ? "" : ", ")}");
             Console.WriteLine("\n");
