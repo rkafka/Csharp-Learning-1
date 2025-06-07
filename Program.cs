@@ -11,6 +11,7 @@ using Microsoft.VisualBasic;
 using primary;
 using GuidedProject3;
 using CreatingMethods;
+using BasicExperimentation;
 using System.Reflection.PortableExecutable;
 using System.Net.NetworkInformation;
 using System.Data.SqlTypes;
@@ -95,6 +96,7 @@ namespace CreatingMethods
             {
                 PlayGame();
             }
+            FireWorks.StartShow();
 
             void PlayGame()
             {
