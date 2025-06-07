@@ -1,4 +1,5 @@
 using System;
+using System.Net.Mime;
 
 namespace GuidedProject4 {
     class GP4
@@ -51,7 +52,9 @@ namespace GuidedProject4 {
         }
         static void TestRandomizeAnimals()
         {
-            
+            Utils.Helper.OutputTitle("Testing RandomizeAnimals()");
+            PettingZoo tempPZ = new PettingZoo("temp");
+            foreach (string animal in )
         }
 
         static string[,] AssignGroup()
@@ -86,21 +89,15 @@ namespace GuidedProject4 {
         }
     }
 
-    public class PettingZoo {
-        public string Name;
-        public string[] Animals;
+    public class PettingZoo(string name = "Contoso", string[]? animals = null)
+    {
+        public string Name = Utils.Helper.CapitalizeFirstLetter(name) + " Petting Zoo";
+        public string[]? Animals = (animals == null) ? animals : (string[])DefaultAnimalList.Clone();
 
         public static string[] DefaultAnimalList = {
             "alpacas", "capybaras", "chickens", "ducks", "emus", "geese",
             "goats", "iguanas", "kangaroos", "lemurs", "llamas", "macaws",
             "ostriches", "pigs", "ponies", "rabbits", "sheep", "tortoises",
         };
-
-        // Constructor
-        public PettingZoo(string name, string[]? animals=null)
-        {
-            Name = name;
-            Animals = (animals == null) ? animals : (string[])DefaultAnimalList.Clone();
-        }
     }
 }

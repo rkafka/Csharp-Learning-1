@@ -47,6 +47,8 @@ namespace Utils
     {
         public static int titleNumber = 0;
         public static Dictionary<string, int> titleCounts = new();
+
+        // Method for breaking up sections and adding a title
         public static void OutputTitle(string title)
         {
             titleNumber++;
@@ -68,6 +70,30 @@ namespace Utils
             Console.Write("]".PadRight(numLines / 2, '-'));
             // Adjust title for numLines' truncation, if needed
             Console.WriteLine(((numLines % 2 == 1) ? "-" : "") + "\n");
+        }
+
+        // method for capitalizing the first letter of a string
+        public static string CapitalizeFirstLetter(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+
+            return char.ToUpper(input[0]) + input.Substring(1);
+        }
+        // method for capitalizing the first letter of all words in a string
+        public static string MakeProperNoun(string input)
+        {
+            string[] words = input.Split(" ");
+            return MakeProperNoun(words);
+        }
+        public static string MakeProperNoun(string[] input)
+        {
+            for (int i = 0; i < input.Length; i++)
+            {
+                input[i] = input[i].Trim().TrimEnd(',','.', ':', '?', '!','-');
+                CapitalizeFirstLetter(input[i]);
+            }
+            return string.Join(" ", input);
         }
     }
     class Extras
