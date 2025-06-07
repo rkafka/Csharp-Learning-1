@@ -12,6 +12,7 @@ using primary;
 using GuidedProject3;
 using CreatingMethods;
 using System.Reflection.PortableExecutable;
+using System.Net.NetworkInformation;
 
 
 // args = Array.Empty<string>();
@@ -55,7 +56,8 @@ namespace CreatingMethods
 
             Exercise_ReusableMethod();
 
-
+            PrintCircleInfo(12);
+            PrintCircleInfo(24);
         }
 
         static void OutputTitle(string title) {
@@ -78,6 +80,26 @@ namespace CreatingMethods
             Console.WriteLine(((numLines % 2 == 1) ? "-" : "") + "\n");
         }
 
+        static double pi = 3.14159;
+        static void PrintCircleArea(int radius)
+        {
+            double area = pi * (radius * radius);
+            Console.WriteLine($"Area = {area}");
+        }
+        static void PrintCircleCircumference(int radius)
+        {
+            double circumference = 2 * pi * radius;
+            Console.WriteLine($"Circumference = {circumference}");
+        }
+        static void PrintCircleInfo(int radius)
+        {
+            OutputTitle("Circle Information");
+            Console.WriteLine($"Circle with radius of {radius} units");
+            PrintCircleArea(radius);
+            PrintCircleCircumference(radius);
+            Console.WriteLine();
+        }
+
         static void Exercise_ReusableMethod()
         {
             OutputTitle("Fortune Telling");
@@ -92,7 +114,7 @@ namespace CreatingMethods
             Console.WriteLine("A fortune teller whispers the following words ...");
             string[] fortune = (luck > 75 ? good : (luck < 25 ? bad : neutral));
             for (int i = 0; i < 4; i++)
-                Console.WriteLine($"    {new string(' ',i)}{text[i]} {fortune[i]} ");
+                Console.WriteLine($"    {new string(' ', i)}{text[i]} {fortune[i]} ");
             Console.WriteLine($" ({(luck > 75 ? "Good" : (luck < 25 ? "Bad" : "Neutral"))}) [{luck}]\n");
         }
 
@@ -762,7 +784,6 @@ namespace primary
         }
     }
 }
-
 
 // Random dice = new Random(); // Random dice = new();
 // int roll = dice.Next(1, 7);
