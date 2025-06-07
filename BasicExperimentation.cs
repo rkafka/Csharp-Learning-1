@@ -74,7 +74,7 @@ namespace BasicExperimentation
 
 
 
-        public void StartShowWithoutClearing()
+        public static void StartShowWithoutClearing()
         {
             int width = Console.WindowWidth;
             int height = Console.WindowHeight;

@@ -35,12 +35,14 @@ Console.WriteLine();
 // modifyStringsWithBuiltInMethods.Execute(args);
 // GP3.Execute(args);
 // MethodBasics.Execute(args);
-MethodsThatReturnValues.Execute(args);
+// MethodsThatReturnValues.Execute(args);
+Utils.Extras.TestFireWorksWithoutClearing();
 Console.WriteLine();
 
 /* TO RUN: "dotnet build ; dotnet run" */
 
-namespace Utils {
+namespace Utils
+{
     class Helper
     {
         public static int titleNumber = 0;
@@ -66,6 +68,35 @@ namespace Utils {
             Console.Write("]".PadRight(numLines / 2, '-'));
             // Adjust title for numLines' truncation, if needed
             Console.WriteLine(((numLines % 2 == 1) ? "-" : "") + "\n");
+        }
+    }
+    class Extras
+    {
+        public static void TestFireWorksWithoutClearing()
+        {
+            string fireworkTestBackground = @"
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tempor purus ac sem sollicitudin, in tempus sem accumsan.
+Sed tristique nisl nec nibh vehicula, vitae pulvinar velit sollicitudin. Duis quis orci et leo tincidunt blandit.
+Integer ac faucibus ipsum. Vivamus ac ex nec nulla feugiat congue. Suspendisse potenti.
+Pellentesque nec erat eu sem feugiat rutrum. In at dui malesuada, tincidunt turpis et, accumsan nisl.
+
+Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
+Etiam sed lorem in quam suscipit pretium. Nullam vitae justo nec lacus hendrerit volutpat.
+Quisque ac nisi ac neque tincidunt tempor. Pellentesque scelerisque justo eget nibh malesuada, ac pulvinar ligula efficitur.
+
+Mauris tincidunt sem a eros mattis, non tincidunt ante tempor. Curabitur ac justo ac nulla dictum ultricies.
+Aenean eget risus diam. Aliquam erat volutpat. Integer scelerisque dapibus mauris ut ultrices.
+Sed non metus nec nulla fringilla fermentum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+
+Duis nec felis ut nisl congue fermentum. Fusce at velit non est porttitor vulputate sed nec magna.
+Maecenas sit amet faucibus ex. Etiam et velit ac tortor laoreet tempus. In malesuada ligula sed est fringilla sollicitudin.
+Nulla convallis lacinia magna, eget malesuada odio. Etiam nec magna sed orci suscipit vestibulum.
+
+Praesent at erat porttitor, scelerisque nisl sit amet, fermentum justo. Cras porta, sapien ac efficitur dapibus, odio metus laoreet sem, at ultrices ligula lacus at lorem.
+Donec vel velit lacus. Donec sed mattis lorem, non laoreet justo. Suspendisse convallis, nunc et tincidunt fermentum, elit nunc pulvinar lorem, at volutpat elit sem non diam.
+            ";
+            Console.WriteLine(fireworkTestBackground);
+            FireWorks.StartShowWithoutClearing();
         }
     }
 }
