@@ -11,6 +11,7 @@ using Microsoft.VisualBasic;
 using primary;
 using GuidedProject3;
 using CreatingMethods;
+using System.Reflection.PortableExecutable;
 
 
 // args = Array.Empty<string>();
@@ -35,18 +36,122 @@ namespace CreatingMethods
 {
     class MethodBasics
     {
+        static int titleNumber = 0;
+        private static Dictionary<string, int> titleCounts = new();
+
         public static void Execute(string[] args)
         {
-            // CountTo(5);
+            CountTo(5);
 
             int[] schedule = { 800, 1200, 1600, 2000 };
             DisplayAdjustedTimes(schedule, 6, -6);
 
-            
+            string[] students = { "Jenna", "Ayesha", "Carlos", "Viktor" };
+            DisplayStudents(students);
+            DisplayStudents(new string[] { "Robert", "Vanya" });
+
+            string[] ipv4Inputs = { "107.31.1.5", "255.0.0.255", "555..0.555", "255...255" };
+            ValidateIP(ipv4Inputs);
+
+            Exercise_ReusableMethod();
+
+
+        }
+
+        static void OutputTitle(string title) {
+            titleNumber++;
+
+            if (!titleCounts.ContainsKey(title)) {
+                titleCounts[title] = 1;
+                title = $" {titleNumber}. {title} ";
+            }
+            else {
+                titleCounts[title]++;
+                title = $" {titleNumber}. {title} ({titleCounts[title]}) ";
+            }
+
+            int numLines = Console.WindowWidth - title.Length; 
+            // if numLines odd, truncation occurs below
+            Console.Write("[".PadLeft(numLines / 2, '-') + title);
+            Console.Write("]".PadRight(numLines / 2, '-'));
+            // Adjust title for numLines' truncation, if needed
+            Console.WriteLine(((numLines % 2 == 1) ? "-" : "") + "\n");
+        }
+
+        static void Exercise_ReusableMethod()
+        {
+            OutputTitle("Fortune Telling");
+            Random random = new Random();
+            int luck = random.Next(100);
+
+            string[] text = { "You have much to", "Today is a day to", "Whatever work you do", "This is an ideal time to" };
+            string[] good = { "look forward to.", "try new things!", "is likely to succeed.", "accomplish your dreams!" };
+            string[] bad = { "fear.", "avoid major decisions.", "may have unexpected outcomes.", "re-evaluate your life." };
+            string[] neutral = { "appreciate.", "enjoy time with friends.", "should align with your values.", "get in tune with nature." };
+
+            Console.WriteLine("A fortune teller whispers the following words ...");
+            string[] fortune = (luck > 75 ? good : (luck < 25 ? bad : neutral));
+            for (int i = 0; i < 4; i++)
+                Console.WriteLine($"    {new string(' ',i)}{text[i]} {fortune[i]} ");
+            Console.WriteLine($" ({(luck > 75 ? "Good" : (luck < 25 ? "Bad" : "Neutral"))}) [{luck}]\n");
+        }
+
+        static void ValidateIP(string IP)
+        {
+            if (ValidateLength(IP) && ValidateZeroes(IP) && ValidateRange(IP))
+                Console.WriteLine($"'{IP.PadRight(16, ' ')}' is a valid IPv4 address");
+            else
+                Console.WriteLine($"'{IP.PadRight(16, ' ')}' is NOT a valid IPv4 address");
+        }
+        static void ValidateIP(string[] IPs)
+        {
+            OutputTitle("Validating IP(s)");
+            foreach (string IPv4address in IPs)
+                ValidateIP(IPv4address);
+            Console.WriteLine();
+        }
+
+        static bool ValidateLength(string IP)
+        {
+            return (IP.Split(".", StringSplitOptions.RemoveEmptyEntries).Length == 4);
+        }
+
+        static bool ValidateZeroes(string IP)
+        {
+            foreach (string strNumber in IP.Split("."))
+            {
+                if (strNumber.Length > 1 && strNumber[0] == '0')
+                    return false;
+            }
+            return true;
+        }
+
+        static bool ValidateRange(string IP)
+        {
+            foreach (string strNumber in IP.Split("."))
+            {
+                if (int.TryParse(strNumber, out int num))
+                {
+                    if (num < 0 || num > 255)
+                        return false;
+                }
+                else
+                    return false;
+            }
+            return true;
+        }
+
+        static void DisplayStudents(string[] students)
+        {
+            OutputTitle("Displaying Students");
+            foreach (string studentName in students)
+                Console.Write($"{studentName}, ");
+            Console.Write("\b\b\n\n");
         }
 
         static void DisplayAdjustedTimes(int[] times, int currentGMT, int newGMT)
         {
+            OutputTitle("Displaying ADJUSTED Times");
             int diff = 0;
             if (Math.Abs(newGMT) > 12 || Math.Abs(currentGMT) > 12)
                 Console.WriteLine("Invalid GMT");
@@ -60,12 +165,78 @@ namespace CreatingMethods
                 int newTime = ((times[i] + diff)) % 2400;
                 Console.WriteLine($"{times[i]} -> {newTime}");
             }
+            Console.WriteLine();
         }
 
         static void CountTo(int max)
         {
+            OutputTitle("Counting to 5");
             for (int i = 1; i <= max; i++)
                 Console.Write($"{i}{((i == max) ? "" : ", ")}");
+            Console.WriteLine("\n");
+        }
+
+        static void SimplifyingDuplicatedCodeBlocks()
+        {
+            int[] times = { 800, 1200, 1600, 2000 };
+            int diff = 0;
+
+            Console.WriteLine("Enter current GMT");
+            int currentGMT = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Current Medicine Schedule:");
+
+            /* Format and display medicine times */
+            DisplayTimes(times);
+
+            Console.WriteLine("Enter new GMT");
+            int newGMT = Convert.ToInt32(Console.ReadLine());
+
+            if (Math.Abs(newGMT) > 12 || Math.Abs(currentGMT) > 12)
+            {
+                Console.WriteLine("Invalid GMT");
+            }
+            else
+            {
+                if (newGMT <= 0 && currentGMT <= 0 || newGMT >= 0 && currentGMT >= 0)
+                    diff = 100 * (Math.Abs(newGMT) - Math.Abs(currentGMT));
+                else
+                    diff = 100 * (Math.Abs(newGMT) + Math.Abs(currentGMT));
+
+                /* Adjust the times by adding the difference, keeping the value within 24 hours */
+                AdjustTimes(times, diff);
+            }
+
+            Console.WriteLine("New Medicine Schedule:");
+            DisplayTimes(times);
+        }
+
+        static void DisplayTimes(int[] times)
+        {
+            /* Format and display medicine times */
+            foreach (int val in times)
+            {
+                string time = val.ToString();
+                int len = time.Length;
+
+                if (len >= 3)
+                    time = time.Insert(len - 2, ":");
+                else if (len == 2)
+                    time = time.Insert(0, "0:");
+                else
+                    time = time.Insert(0, "0:0");
+
+                Console.Write($"{time} ");
+            }
+            Console.WriteLine();
+        }
+
+        static void AdjustTimes(int[] times, int diff)
+        {
+            for (int i = 0; i < times.Length; i++)
+            {
+                int newTime = ((times[i] + diff)) % 2400;
+            }
         }
     }
 }
