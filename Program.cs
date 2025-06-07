@@ -15,6 +15,9 @@ using System.Reflection.PortableExecutable;
 using System.Net.NetworkInformation;
 using System.Data.SqlTypes;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
+//
+using System.Linq;
 
 
 // args = Array.Empty<string>();
@@ -72,7 +75,272 @@ namespace CreatingMethods
     {
         public static void Execute(string[] args)
         {
-            
+            // Utils.Helper.OutputTitle("test");
+            CalculateTotalPurchasePrice();
+
+            ReturningNumbers();
+            ReturningStrings();
+            ReturningBooleans();
+            ReturningArrays();
+
+            DiceMiniGame();
+        }
+
+        static void DiceMiniGame()
+        {
+            Random random = new Random();
+
+            Console.WriteLine("Would you like to play? (Y/N)");
+            if (ShouldPlay())
+            {
+                PlayGame();
+            }
+
+            void PlayGame()
+            {
+                var play = true;
+
+                while (play)
+                {
+                    var target = random.Next(1, 6);
+                    var roll = random.Next(1, 7);
+
+                    Console.WriteLine($"Roll a number greater than {target} to win!");
+                    Console.WriteLine($"You rolled a {roll}");
+                    Console.WriteLine(WinOrLose(roll, target));
+                    Console.Write("\nPlay again? (Y/N):     ");
+
+                    play = ShouldPlay();
+                }
+            }
+            bool ShouldPlay()
+            {
+                while (true)
+                {
+                    string? input = Console.ReadLine();
+                    if (!string.IsNullOrWhiteSpace(input))
+                    {
+                        if (input.ToLower().StartsWith('n'))
+                            return false;
+                        else if (input.ToLower().StartsWith('y'))
+                            return true;
+                        else
+                            Console.WriteLine("Invalid input... please enter 'Y' or 'N'");
+                    }
+                }
+            }
+            string WinOrLose(int roll, int target)
+            {
+                if (roll > target)
+                {
+                    string winMessage = "Victory!";
+                    int burstIndex = Console.WindowWidth - 40;
+                    for (int i = 0; i < burstIndex; i++)
+                    {
+                        Console.Write("-");
+                        Thread.Sleep(10);
+                    }
+                    Console.Write("*");
+                    Thread.Sleep(50);
+                    Console.Write(" ");
+                    Thread.Sleep(50);
+                    return winMessage;
+                }
+                else
+                    return "Defeat. Sorry about that...";
+            }
+        }
+
+        static void ReturningArrays()
+        {
+            Utils.Helper.OutputTitle("Returning Arrays");
+
+            int target = 60;
+            int[] coins = new int[] { 5, 5, 50, 25, 25, 10, 5 };
+            int[] result = TwoCoins(coins, target);
+            Console.Write("[V1] ");
+            Console.WriteLine(result.Length == 0 ? "No two coins make change." : $"Change found at positions {result[0]} and {result[1]}.");
+
+            checkResult2(target: 30);
+            checkResult2(target: 80);
+
+            Console.WriteLine();
+
+            void checkResult2(int target = 30)
+            {
+                int[,] result2 = TwoCoinsAlternate(coins, target);
+                if (result2.Length == 0)
+                    Console.WriteLine("[V2] No two coins make change.");
+                else
+                {
+                    Console.Write("[V2] Change found at positions:  ");
+                    for (int i = 0; i < result2.GetLength(0); i++)
+                    {
+                        if (result2[i, 0] == -1)
+                            break;
+                        Console.Write($"[{result2[i, 0]},{result2[i, 1]}], ");
+                    }
+                    Console.WriteLine("\b\b  ");
+                }
+            }
+
+            int[] TwoCoins(int[] coins, int target)
+            {
+                for (int curr = 0; curr < coins.Length; curr++)
+                {
+                    for (int next = curr + 1; next < coins.Length; next++)
+                    {
+                        if (coins[curr] + coins[next] == target)
+                            return new int[] { curr, next };
+                    }
+                }
+                return new int[0];
+            }
+            int[,] TwoCoinsAlternate(int[] coins, int target)
+            {
+                int[,] result = { { -1, -1 }, { -1, -1 }, { -1, -1 }, { -1, -1 }, { -1, -1 } };
+                int count = 0;
+                for (int curr = 0; curr < coins.Length; curr++)
+                {
+                    for (int next = curr + 1; next < coins.Length; next++)
+                    {
+                        if (coins[curr] + coins[next] == target)
+                        {
+                            result[count, 0] = curr;
+                            result[count, 1] = next;
+                            count++;
+                        }
+                        if (count == result.GetLength(0))
+                            return result;
+                    }
+                }
+                // if (count == 0)
+                //     return new int[0, 0];
+                // return result;
+                return ((count != 0) ? result : new int[0, 0]);
+            }
+        }
+
+        static void ReturningBooleans()
+        {
+            Utils.Helper.OutputTitle("Returning Booleans");
+
+            string[] words = { "racecar", "talented", "deified", "tent", "tenet" };
+
+            Console.WriteLine("Is it a palindrome?");
+            foreach (string word in words)
+            {
+                Console.WriteLine($"{word}: {IsPalindrome(word)}");
+            }
+            Console.WriteLine();
+
+            bool IsPalindrome(string word)
+            {
+                for (int i = 0; i < word.Length / 2; i++)
+                {
+                    if (word[i] != word[word.Length - 1 - i])
+                        return false;
+                }
+                return true;
+            }
+        }
+
+        static void ReturningStrings()
+        {
+            Utils.Helper.OutputTitle("Returning Strings");
+
+            string[] wordsToReverse = { "snake", "hollywood", "c-sharp", "tingus pingus" };
+            int longestWordLength = wordsToReverse.Max(word => word.Length); // using LINQ
+            int padding = longestWordLength + "Reversing '':".Length + 3;
+            foreach (string word in wordsToReverse)
+                Console.WriteLine($"Reversing '{word}':".PadRight(padding) + ReverseWord(word));
+            Console.WriteLine();
+
+            string sentence = "there are snakes at the zoo";
+            Console.WriteLine($"sentence:   '{sentence}'");
+            Console.WriteLine($"reversed:   '{ReverseSentence("there are snakes at the zoo")}'");
+            Console.WriteLine();
+
+            string ReverseSentence(string input)
+            {
+                string result = "";
+                string[] words = input.Split(" ");
+                for (int i = words.Length - 1; i >= 0; i--)
+                    result += ReverseWord(words[i]) + " ";
+                return result.Trim();
+            }
+
+            string ReverseWord(string word)
+            {
+                string result = "";
+                for (int i = word.Length - 1; i >= 0; i--)
+                    result += word[i];
+                return result;
+            }
+        }
+        static void ReturningNumbers()
+        {
+            Utils.Helper.OutputTitle("Returning Numbers");
+            int rate = 23500;
+
+            double usd = 23.73;
+            int vnd = UsdToVnd(usd);
+            Console.WriteLine($"${usd:N2} USD = ${vnd:N2} VND");
+            Console.WriteLine($"{vnd:C2} VND = {VndToUsd(vnd):C2} USD");
+            Console.WriteLine();
+
+            int UsdToVnd(double usd)
+            {
+                return (int)(rate * usd); // NEED to cast
+            }
+            double VndToUsd(int vnd)
+            {
+                return vnd / ((double)rate);
+            }
+        }
+
+        static void CalculateTotalPurchasePrice()
+        {
+            double total = 0;
+            double minimumSpend = 30.00;
+
+            double[] items = { 15.97, 3.50, 12.25, 22.99, 10.98 };
+            double[] discounts = { 0.30, 0.00, 0.10, 0.20, 0.50 };
+
+            // RJK
+            Utils.Helper.OutputTitle("Calculating Total Purchase Price");
+            for (int i = 0; i < items.Length; i++)
+            {
+                total += GetDiscountedPrice(i);
+            }
+            if (TotalMeetsMinimum())
+            {
+                total -= 5.00f;
+                Console.WriteLine("CONGRATS! Extra Discount --> -$5.00");
+            }
+            Console.WriteLine("".PadRight(36, '-'));
+            Console.WriteLine($"Total: ${FormatDecimal(total)}".PadLeft(36));
+            Console.WriteLine();
+
+            double GetDiscountedPrice(int itemIndex)
+            {
+                // Calculate the discounted price of the item
+                double discountedPrice = items[itemIndex] * (1.00f - discounts[itemIndex]);
+                Console.WriteLine($"Item #{itemIndex}'s discounted price =  {discountedPrice:C2}");
+                return discountedPrice;
+            }
+
+            bool TotalMeetsMinimum()
+            {
+                // Check if the total meets the minimum
+                return total >= minimumSpend;
+            }
+
+            string FormatDecimal(double input)
+            {
+                // Format the double so only 2 decimal places are displayed
+                return $"{input:N2}";
+            }
         }
     }
 
