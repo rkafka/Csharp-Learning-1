@@ -97,6 +97,8 @@ namespace GuidedProject5
 
                 // RJK
                 currentMood = moods[food];
+                if (player == states[2]) // player is (X_X)
+                    FreezePlayer();
                 // ---
 
                 // Clear the characters at the previous position
@@ -116,16 +118,10 @@ namespace GuidedProject5
                 Console.SetCursorPosition(playerX, playerY);
 
                 // RJK ---
-                if (player == states[2]) // player is (X_X)
-                {
-                    FreezePlayer();
-                    
-                }
-
                 if (player == states[1]) // player is (^-^)
-                        currentSpeed = SUPER_SPEED;
-                    else
-                        currentSpeed = DEFAULT_SPEED;
+                    currentSpeed = SUPER_SPEED;
+                else
+                    currentSpeed = DEFAULT_SPEED;
                 // -------
             }
 
@@ -141,8 +137,7 @@ namespace GuidedProject5
                 }
 
                 // Keep player position within the bounds of the Terminal window
-                playerX = (playerX < 0) ? 0 : (playerX >= width ? width : playerX);
-                // playerY = (playerY < 0) ? 0 : (playerY >= height ? height : playerY);
+                playerX = (playerX < MIN_X) ? MIN_X : (playerX >= width ? width : playerX);
                 playerY = (playerY < MIN_Y) ? MIN_Y : (playerY >= height ? height : playerY);
 
                 // Draw the player at the new location
@@ -150,6 +145,7 @@ namespace GuidedProject5
                 Console.Write(player);
 
                 System.Threading.Thread.Sleep(1000);
+
                 player = states[0];
             }
 
