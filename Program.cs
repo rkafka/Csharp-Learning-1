@@ -21,6 +21,7 @@ using System.Xml.Serialization;
 //
 using System.Linq;
 using GuidedProject5;
+using CodeDebuggingAndExceptionHandling;
 
 
 // args = Array.Empty<string>();
@@ -40,7 +41,11 @@ Console.WriteLine();
 // MethodsThatReturnValues.Execute(args);
 // Utils.Extras.TestFireWorksWithoutClearing();
 // GP4.Execute(args);
-GP5.Execute(args[1..]);
+
+// GP5.Execute(args[1..]); // MINI GAME
+
+DebuggingModule.Execute(args[1..]);
+
 Console.WriteLine();
 
 /* TO RUN: "dotnet build ; dotnet run" */
@@ -132,6 +137,17 @@ Donec vel velit lacus. Donec sed mattis lorem, non laoreet justo. Suspendisse co
             ";
             Console.WriteLine(fireworkTestBackground);
             FireWorks.StartShowWithoutClearing();
+        }
+    }
+}
+
+namespace CodeDebuggingAndExceptionHandling
+{
+    class DebuggingModule
+    {
+        public static void Execute(string[] args)
+        {
+            
         }
     }
 }
