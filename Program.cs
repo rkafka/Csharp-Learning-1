@@ -10,6 +10,7 @@ using Microsoft.VisualBasic;
 // namespaces
 using primary;
 using GuidedProject3;
+using GuidedProject4;
 using CreatingMethods;
 using BasicExperimentation;
 using System.Reflection.PortableExecutable;
@@ -36,7 +37,8 @@ Console.WriteLine();
 // GP3.Execute(args);
 // MethodBasics.Execute(args);
 // MethodsThatReturnValues.Execute(args);
-Utils.Extras.TestFireWorksWithoutClearing();
+// Utils.Extras.TestFireWorksWithoutClearing();
+GP4.Execute(args);
 Console.WriteLine();
 
 /* TO RUN: "dotnet build ; dotnet run" */
@@ -49,20 +51,25 @@ namespace Utils
         public static Dictionary<string, int> titleCounts = new();
 
         // Method for breaking up sections and adding a title
-        public static void OutputTitle(string title)
+        public static void OutputTitle(string title, bool addNumber = false)
         {
-            titleNumber++;
-
-            if (!titleCounts.ContainsKey(title))
+            if (addNumber)
             {
-                titleCounts[title] = 1;
-                title = $" {titleNumber}. {title} ";
+                titleNumber++;
+                // if title is repeated, indicate so
+                if (!titleCounts.ContainsKey(title))
+                {
+                    titleCounts[title] = 1;
+                    title = $" {titleNumber}. {title} ";
+                }
+                else
+                {
+                    titleCounts[title]++;
+                    title = $" {titleNumber}. {title} ({titleCounts[title]}) ";
+                }
             }
             else
-            {
-                titleCounts[title]++;
-                title = $" {titleNumber}. {title} ({titleCounts[title]}) ";
-            }
+                title = $" {title} ";
 
             int numLines = Console.WindowWidth - title.Length;
             // if numLines odd, truncation occurs below

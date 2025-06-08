@@ -4,6 +4,7 @@ using System.Net.Mime;
 namespace GuidedProject4 {
     class GP4
     {
+        public const int DEFAULT_GROUPSIZE = 6;
         /*
             PROJECT OVERVIEW
             
@@ -32,85 +33,46 @@ namespace GuidedProject4 {
 
         public static void Execute(string[] args)
         {
+            Utils.Helper.OutputTitle("GUIDED PROJECT 4", false);
+
             // var group = AssignGroup();
             // string[,] group = AssignGroup();
 
             PettingZoo PZ = new("Contoso");
 
-            // School schoolA = new("A");
-            // RandomizeAnimals(PZ);
-            // PZ.RandomizeAnimals();
-            // int start = 0;
-            // int end = PZ.NumAnimals / schoolA.NumGroups;
-            // for (int groupNum = 0; groupNum < schoolA.NumGroups; groupNum++)
-            // {
-            //     schoolA.Groups[groupNum].AssignGroup(PZ.Animals[start..end]);
-            // }
-            // schoolA.Output(); 
             School schoolA = new("A");
             GenerateVisitingGroups(schoolA, PZ);
             School schoolB = new("B", 3);
             GenerateVisitingGroups(schoolB, PZ);
             School schoolC = new("C", 2);
             GenerateVisitingGroups(schoolC, PZ);
-            // PrintGroup();
-
-            // PrintGroup(group);
         }
 
         public static void GenerateVisitingGroups(School curSchool, PettingZoo PZ)
         {
             PZ.RandomizeAnimals();
             int start = 0;
-            int end = PZ.NumAnimals / curSchool.NumGroups;
+            int increment = PZ.NumAnimals / curSchool.NumGroups;
+            int end = increment;
             for (int groupNum = 0; groupNum < curSchool.NumGroups; groupNum++)
             {
                 curSchool.Groups[groupNum].AssignGroup(PZ.Animals[start..end]);
+                start = end;
+                end += increment;
             }
             curSchool.Output(); 
         }
 
-        // static void RandomizeAnimals(PettingZoo PZ)
-        // {
-        //     Random rng = new();
-        //     for (int i = 0; i < PZ.Animals.Length; i++)
-        //     {
-        //         // retrieve random index
-        //         int r = rng.Next(i, PZ.Animals.Length);
-        //         // perform swap
-        //         string temp = PZ.Animals[i];
-        //         PZ.Animals[i] = PZ.Animals[r];
-        //         PZ.Animals[r] = temp;
-        //     }
-        // }
-        // static void TestRandomizeAnimals()
-        // {
-        //     Utils.Helper.OutputTitle("Testing RandomizeAnimals()");
-        //     PettingZoo tempPZ = new PettingZoo("temp");
-
-        //     foreach (string animal in tempPZ.Animals)
-        //         Console.Write($"{animal} ");
-        //     Console.WriteLine();
-
-        //     tempPZ.RandomizeAnimals();
-        // }
-
-        // static string[,] AssignGroup()
-        // {
-        //     return new string[0, 0];
-        //     Console.WriteLine("\n\nFUNCTION 'AssignGroup()' NOT COMPLETE\n");
-        // }
-
         static void PrintGroup(string[,] group)
         {
-            School p = new School("A");
-            Console.WriteLine("\n\nFUNCTION 'PrintGroup()' NOT COMPLETE\n");
+            // School p = new School("A");
+            Console.WriteLine("\n\nFUNCTION 'PrintGroup()' REPLACED BY OTHER IMPLEMENTATION\n");
         }
     }
-    public class Group(int groupNumber, int numAnimals = -1) {
+    public class Group(int groupNumber, int numAnimals) {
         public int GroupNumber = groupNumber;
         public int NumAnimals = numAnimals;
-        public string[]? Animals = new string[numAnimals];
+        public string[] Animals = new string[numAnimals];
 
         public void AssignGroup(string[] animals)
         {
@@ -119,10 +81,11 @@ namespace GuidedProject4 {
                 Console.WriteLine("\n\nERROR in AssignGroup()\n\n");
                 return;
             }
+            else
+                NumAnimals = animals.Length;
+
             for (int i = 0; i < NumAnimals; i++)
-            {
                 Animals[i] = animals[i];
-            }
         }
         
         // ToString Override
@@ -146,7 +109,9 @@ namespace GuidedProject4 {
 
             Groups = new Group[NumGroups];
             for (int groupNumber = 1; groupNumber <= NumGroups; groupNumber++)
-                Groups[groupNumber] = new Group(groupNumber);
+            {
+                Groups[groupNumber-1] = new Group(groupNumber, PettingZoo.DefaultAnimalList.Length);
+            }
         }
         // ToString Override
         public override string ToString()
@@ -168,7 +133,7 @@ namespace GuidedProject4 {
     public class PettingZoo(string name = "Contoso", string[]? animals = null)
     {
         public string Name = Utils.Helper.CapitalizeFirstLetter(name) + " Petting Zoo";
-        public string[]? Animals = (animals == null) ? animals : (string[])DefaultAnimalList.Clone();
+        public string[] Animals = (animals != null) ? animals : (string[])DefaultAnimalList.Clone();
         public int NumAnimals = DefaultAnimalList.Length;
 
         public static string[] DefaultAnimalList = {
@@ -190,6 +155,7 @@ namespace GuidedProject4 {
                 Animals[r] = temp;
             }
         }
+        // test function to visually confirm randomization occured
         public static void TestRandomizeAnimals()
         {
             Utils.Helper.OutputTitle("Testing RandomizeAnimals()");
@@ -200,6 +166,10 @@ namespace GuidedProject4 {
             Console.WriteLine();
 
             tempPZ.RandomizeAnimals();
+
+            foreach (string animal in tempPZ.Animals)
+                Console.Write($"{animal} ");
+            Console.WriteLine();
         }
     }
 }
