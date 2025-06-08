@@ -231,16 +231,16 @@ namespace GuidedProject5
                     Thread.Sleep(animationTime);
                 }
                 // pause for effect
-                Thread.Sleep(animationTime*10);
+                Thread.Sleep(animationTime * 10);
                 // delete letter by letter
-                int pos = welcomeMessage.Length; // index of how many characters need to be deleted
-                while (pos > 0) {
+                for(int pos = welcomeMessage.Length; pos > 0; pos--)
+                {
                     // move back, replace with space, move back again
                     Console.Write("\b \b");
                     Thread.Sleep(animationTime);
                 }
                 // write debugBar();
-                string coordinateDisplay = $"|  SNACKER BOY  |  PLAYER:  {playerX}, {playerY}  |  FOOD:  {foodX}, {foodY}  |".PadRight(Console.WindowWidth,'-');
+                string coordinateDisplay = $"|  SNACKER BOY  |  PLAYER:  {playerX}, {playerY}  |  FOOD:  {foodX}, {foodY}  |".PadRight(Console.WindowWidth, '-');
                 foreach (char letter in coordinateDisplay)
                 {
                     Console.Write(letter);
