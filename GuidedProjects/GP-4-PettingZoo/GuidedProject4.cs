@@ -81,9 +81,11 @@ namespace GuidedProject4 {
                 Console.WriteLine("\n\nERROR in AssignGroup()\n\n");
                 return;
             }
-            else
-                NumAnimals = animals.Length;
 
+            NumAnimals = animals.Length;
+            Animals = new string[NumAnimals]; 
+
+            // Console.WriteLine($"TEST1  |  {animals.Length}  |  {NumAnimals}");
             for (int i = 0; i < NumAnimals; i++)
                 Animals[i] = animals[i];
         }
