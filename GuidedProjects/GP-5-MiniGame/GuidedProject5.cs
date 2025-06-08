@@ -50,7 +50,7 @@ namespace GuidedProject5
             while (!shouldExit)
             {
                 debugBar();
-                shouldExit = Move();
+                shouldExit = Move(currentSpeed, false);
                 if (TerminalResized())
                 {
                     Console.WriteLine("Console was resized. Program exiting.");
@@ -115,8 +115,11 @@ namespace GuidedProject5
                 Console.SetCursorPosition(playerX, playerY);
 
                 // RJK ---
+                currentSpeed = DEFAULT_SPEED;
                 if (player == states[2]) // player is (X_X)
                     FreezePlayer();
+                else if (player == states[1]) // player is (^-^)
+                    currentSpeed = SUPER_SPEED;
                 // -------
             }
 
@@ -136,15 +139,19 @@ namespace GuidedProject5
                 switch (Console.ReadKey(true).Key)
                 {
                     case ConsoleKey.UpArrow:
+                    case ConsoleKey.W:
                         playerY--;
                         break;
                     case ConsoleKey.DownArrow:
+                    case ConsoleKey.S:
                         playerY++;
                         break;
                     case ConsoleKey.LeftArrow:
+                    case ConsoleKey.A:
                         playerX -= speed;
                         break;
                     case ConsoleKey.RightArrow:
+                    case ConsoleKey.D:
                         playerX += speed;
                         break;
                     case ConsoleKey.Escape:
@@ -250,12 +257,37 @@ namespace GuidedProject5
                 string statusMessageStructure = $"<[ Feeling XXXXXX ]>";
                 int totalLength = statusMessageStructure.Length;
                 int numCharactersWritten = 0;
-                int left = Console.WindowWidth - 
-                while (numCharactersWritten)
+                int left = Console.WindowWidth - totalLength / 2 - 2;
+                int right = Console.WindowWidth - totalLength / 2 - 2 + 1;
+                while (numCharactersWritten < totalLength)
                 {
+                    Console.SetCursorPosition(left, 0);
+                    Console.Write("<");
+                    for (int spacesBetween = numCharactersWritten; spacesBetween > 0; spacesBetween -= 2)
+                    {
+                        Console.Write("  ");
+                    }
+                    Console.Write(">");
 
-                    numCharactersWrittenWritten += 2;
+                    numCharactersWritten += 2;
+                    left -= 1;
+                    right += 1;
+                    Thread.Sleep(100);
                 }
+                Thread.Sleep(100);
+                //
+                left += 2;
+                Console.SetCursorPosition(left, 0);
+                Console.Write("[".PadRight(totalLength - 4) + "]");
+                Thread.Sleep(200);
+                //
+                left++;
+                Console.SetCursorPosition(left, 0);
+                Console.Write(" Feeling ");
+                Thread.Sleep(200);
+                //
+                Console.Write(currentMood);
+                Thread.Sleep(200);
             }
         }
     }
