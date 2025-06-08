@@ -40,7 +40,7 @@ Console.WriteLine();
 // MethodsThatReturnValues.Execute(args);
 // Utils.Extras.TestFireWorksWithoutClearing();
 // GP4.Execute(args);
-GP5.Execute(args);
+GP5.Execute(args[1..]);
 Console.WriteLine();
 
 /* TO RUN: "dotnet build ; dotnet run" */

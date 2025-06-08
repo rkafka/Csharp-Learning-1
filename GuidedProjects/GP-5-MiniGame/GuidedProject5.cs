@@ -1,6 +1,7 @@
 
 
 using System.Numerics;
+using System.Runtime.InteropServices;
 
 namespace GuidedProject5
 {
@@ -46,7 +47,7 @@ namespace GuidedProject5
             // Index of the current food
             int food = 0;
 
-            InitializeGame();
+            InitializeGame(args);
             while (!shouldExit)
             {
                 debugBar();
@@ -115,17 +116,39 @@ namespace GuidedProject5
                 Console.SetCursorPosition(playerX, playerY);
 
                 // RJK ---
-                currentSpeed = DEFAULT_SPEED;
                 if (player == states[2]) // player is (X_X)
+                {
                     FreezePlayer();
-                else if (player == states[1]) // player is (^-^)
-                    currentSpeed = SUPER_SPEED;
+                    
+                }
+
+                if (player == states[1]) // player is (^-^)
+                        currentSpeed = SUPER_SPEED;
+                    else
+                        currentSpeed = DEFAULT_SPEED;
                 // -------
             }
 
             // Temporarily stops the player from moving
             void FreezePlayer()
             {
+                // Clear the characters at the previous position
+                int lastX = playerX; int lastY = playerY;
+                Console.SetCursorPosition(lastX, lastY);
+                for (int i = 0; i < player.Length; i++)
+                {
+                    Console.Write(" ");
+                }
+
+                // Keep player position within the bounds of the Terminal window
+                playerX = (playerX < 0) ? 0 : (playerX >= width ? width : playerX);
+                // playerY = (playerY < 0) ? 0 : (playerY >= height ? height : playerY);
+                playerY = (playerY < MIN_Y) ? MIN_Y : (playerY >= height ? height : playerY);
+
+                // Draw the player at the new location
+                Console.SetCursorPosition(playerX, playerY);
+                Console.Write(player);
+
                 System.Threading.Thread.Sleep(1000);
                 player = states[0];
             }
@@ -194,11 +217,12 @@ namespace GuidedProject5
             }
 
             // Clears the console, displays the food and player
-            void InitializeGame()
+            void InitializeGame(string[] args)
             {
                 Console.Clear();
                 // RJK --
-                playStartUpAnimation();
+                if(int.TryParse(args[0], out int desiredAnimationTimeInMS))
+                    playStartUpAnimation(animationTime:desiredAnimationTimeInMS);
                 playerX = MIN_X; playerY = MIN_Y;
                 foodX = MIN_X; foodY = MIN_Y;
                 // ------
