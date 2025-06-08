@@ -15,6 +15,7 @@ namespace GuidedProject5
             Utils.Helper.OutputTitle(" GUIDED PROJECT 5  >-<  MINI-GAME ");
 
 
+
             Random random = new Random();
             Console.CursorVisible = false;
             int height = Console.WindowHeight - 1;
@@ -30,6 +31,11 @@ namespace GuidedProject5
             // Available player and food strings
             string[] states = { "('-')", "(^-^)", "(X_X)" };
             string[] foods = { "@@@@@", "$$$$$", "#####" };
+
+            // RJK (mood (state) titles)
+            string[] moods = { "Ok.   ", "Great!", "Bad :(" };
+            string currentMood = moods[0];
+            // --
 
             // Current player string displayed in the Console
             string player = states[0];
@@ -83,6 +89,11 @@ namespace GuidedProject5
             void ChangePlayer()
             {
                 player = states[food];
+
+                // RJK
+                currentMood = moods[food];
+                // ---
+
                 // Clear the characters at the previous position
                 int lastX = playerX;
                 int lastY = playerY;
@@ -95,10 +106,9 @@ namespace GuidedProject5
                 playerX = (playerX < MIN_X) ? MIN_X : (playerX >= width ? width : playerX);
                 playerY = (playerY < MIN_Y) ? MIN_Y : (playerY >= height ? height : playerY);
 
-                // Draw the player at the new location
+                // CANCELLED -> Draw the player at the new location
+                // Update cursor position after having deleted old value
                 Console.SetCursorPosition(playerX, playerY);
-                // Console.SetCursorPosition(playerX, playerY);
-                // Console.Write(player);
             }
 
             // Temporarily stops the player from moving
@@ -152,18 +162,8 @@ namespace GuidedProject5
                 // Draw the player at the new location
                 Console.SetCursorPosition(playerX, playerY);
 
-                // if(playerX == foodX && playerY == foodY) 
-                // -- // if middlepoint of both player & food are the same
-                // if ((playerX >= foodX - 2) && (playerX <= foodX + 2) && (playerY == foodY))
-                // -- // if any of the player's 5-character-body overlaps with the midpoint
-                // if((playerX-2 >= foodX -2) && (playerX+2 <= foodX+2) && (playerY == foodY))
                 if ((playerX + 4 >= foodX) && (playerX - 4 <= foodX) && (playerY == foodY))
                 {
-                    // Console.SetCursorPosition(0, 0);
-                    // Console.Write($"PLAYER: {playerX},{playerY}  |  FOOD: {foodX},{foodY}  |".PadRight(Console.WindowWidth, '-'));
-                    // Thread.Sleep(1000);
-                    // Console.SetCursorPosition(playerX, playerY);
-
                     ShowFood();
                     ChangePlayer();
                 }
@@ -213,13 +213,23 @@ namespace GuidedProject5
 
             void debugBar()
             {
-                string coordinateDisplay = $"|  SNACKER BOY  |  PLAYER:  {playerX}, {playerY}  |  FOOD:  {foodX}, {foodY}  |";
+                //
+                string title = $"|  SNACKER BOY  ";
+                string coordinateDisplay = $"|  PLAYER:  {playerX}, {playerY}  |  FOOD:  {foodX}, {foodY}  |";
+                string debugBar = title + coordinateDisplay;
+                //
+                string currentStatus = $"<[ Feeling {currentMood} ]>";
+                debugBar = debugBar.PadRight(Console.WindowWidth-currentStatus.Length, '-');
+                debugBar += currentStatus;
+
+                // output to console
                 Console.SetCursorPosition(0, 0);
-                Console.Write(coordinateDisplay.PadRight(Console.WindowWidth, '-'));
-                // Thread.Sleep(1000); // debug option
+                Console.Write(debugBar);
+                
+                // return cursor position to player location
                 Console.SetCursorPosition(playerX, playerY);
             }
-            
+
             void playStartUpAnimation()
             {
                 //
@@ -233,7 +243,7 @@ namespace GuidedProject5
                 // pause for effect
                 Thread.Sleep(animationTime * 10);
                 // delete letter by letter
-                for(int pos = welcomeMessage.Length; pos > 0; pos--)
+                for (int pos = welcomeMessage.Length; pos > 0; pos--)
                 {
                     // move back, replace with space, move back again
                     Console.Write("\b \b");
@@ -247,7 +257,6 @@ namespace GuidedProject5
                     Thread.Sleep(animationTime);
                 }
             }
-
         }
     }
 }
