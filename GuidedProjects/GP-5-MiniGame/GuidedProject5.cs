@@ -1,5 +1,7 @@
 
 
+using System.Numerics;
+
 namespace GuidedProject5
 {
     class GP5
@@ -8,13 +10,13 @@ namespace GuidedProject5
         // RJK constants
         const int MIN_Y = 1; // originally 0
         const int MIN_X = 0;
+        const int DEFAULT_SPEED = 1;
+        const int SUPER_SPEED = 3;
         // -------------
 
         public static void Execute(string[] args)
         {
             Utils.Helper.OutputTitle(" GUIDED PROJECT 5  >-<  MINI-GAME ");
-
-
 
             Random random = new Random();
             Console.CursorVisible = false;
@@ -23,11 +25,11 @@ namespace GuidedProject5
             bool shouldExit = false;
 
             // Console position of the player
-            int playerX = MIN_X;
-            int playerY = MIN_Y;
+            int playerX = -1;
+            int playerY = -1;
             // Console position of the food
-            int foodX = 0;
-            int foodY = 0;
+            int foodX = -1;
+            int foodY = -1;
             // Available player and food strings
             string[] states = { "('-')", "(^-^)", "(X_X)" };
             string[] foods = { "@@@@@", "$$$$$", "#####" };
@@ -35,6 +37,8 @@ namespace GuidedProject5
             // RJK (mood (state) titles)
             string[] moods = { "Ok.   ", "Great!", "Bad :(" };
             string currentMood = moods[0];
+
+            int currentSpeed = 1;
             // --
 
             // Current player string displayed in the Console
@@ -109,6 +113,11 @@ namespace GuidedProject5
                 // CANCELLED -> Draw the player at the new location
                 // Update cursor position after having deleted old value
                 Console.SetCursorPosition(playerX, playerY);
+
+                // RJK ---
+                if (player == states[2]) // player is (X_X)
+                    FreezePlayer();
+                // -------
             }
 
             // Temporarily stops the player from moving
@@ -119,7 +128,7 @@ namespace GuidedProject5
             }
 
             // Reads directional input from the Console and moves the player
-            bool Move(bool increaseSpeed = false, bool banNonDirectionalInput = false)
+            bool Move(int speed = 1, bool banNonDirectionalInput = false)
             {
                 int lastX = playerX;
                 int lastY = playerY;
@@ -133,17 +142,20 @@ namespace GuidedProject5
                         playerY++;
                         break;
                     case ConsoleKey.LeftArrow:
-                        playerX--;
+                        playerX -= speed;
                         break;
                     case ConsoleKey.RightArrow:
-                        playerX++;
+                        playerX += speed;
                         break;
                     case ConsoleKey.Escape:
                         shouldExit = true;
                         break;
                     default:
-                        shouldExit = true;
-                        Console.WriteLine("Nondirectional input detected. Program exiting.");
+                        if (banNonDirectionalInput)
+                        {
+                            shouldExit = true;
+                            Console.WriteLine("Nondirectional input detected. Program exiting.");
+                        }
                         break;
                 }
 
@@ -180,35 +192,12 @@ namespace GuidedProject5
                 Console.Clear();
                 // RJK --
                 playStartUpAnimation();
+                playerX = MIN_X; playerY = MIN_Y;
+                foodX = MIN_X; foodY = MIN_Y;
                 // ------
                 ShowFood();
                 Console.SetCursorPosition(MIN_X, MIN_Y);
                 Console.Write(player);
-            }
-
-
-
-
-            bool checkIfPlayerTired()
-            {
-                if (player == "(X_X)")
-                {
-                    FreezePlayer();
-                    return true;
-                }
-
-                return false;
-            }
-
-            bool checkIfPlayerHappy()
-            {
-                if (player == "(^-^)")
-                {
-                    FreezePlayer();
-                    return true;
-                }
-
-                return false;
             }
 
             void debugBar()
@@ -218,22 +207,21 @@ namespace GuidedProject5
                 string coordinateDisplay = $"|  PLAYER:  {playerX}, {playerY}  |  FOOD:  {foodX}, {foodY}  |";
                 string debugBar = title + coordinateDisplay;
                 //
-                string currentStatus = $"<[ Feeling {currentMood} ]>";
-                debugBar = debugBar.PadRight(Console.WindowWidth-currentStatus.Length, '-');
+                string currentStatus = $"<[ Feeling {currentMood} ]>"+"--";
+                debugBar = debugBar.PadRight(Console.WindowWidth - currentStatus.Length, '-');
                 debugBar += currentStatus;
 
                 // output to console
                 Console.SetCursorPosition(0, 0);
                 Console.Write(debugBar);
-                
+
                 // return cursor position to player location
                 Console.SetCursorPosition(playerX, playerY);
             }
 
-            void playStartUpAnimation()
+            void playStartUpAnimation(int animationTime = 50)
             {
                 //
-                int animationTime = 50; // ms
                 string welcomeMessage = $"Welcome to the game!  :) ";
                 foreach (char letter in welcomeMessage)
                 {
@@ -249,12 +237,24 @@ namespace GuidedProject5
                     Console.Write("\b \b");
                     Thread.Sleep(animationTime);
                 }
+
                 // write debugBar();
                 string coordinateDisplay = $"|  SNACKER BOY  |  PLAYER:  {playerX}, {playerY}  |  FOOD:  {foodX}, {foodY}  |".PadRight(Console.WindowWidth, '-');
                 foreach (char letter in coordinateDisplay)
                 {
                     Console.Write(letter);
                     Thread.Sleep(animationTime);
+                }
+
+                // add status section
+                string statusMessageStructure = $"<[ Feeling XXXXXX ]>";
+                int totalLength = statusMessageStructure.Length;
+                int numCharactersWritten = 0;
+                int left = Console.WindowWidth - 
+                while (numCharactersWritten)
+                {
+
+                    numCharactersWrittenWritten += 2;
                 }
             }
         }
