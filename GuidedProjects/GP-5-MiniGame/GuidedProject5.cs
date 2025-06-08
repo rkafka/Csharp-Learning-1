@@ -4,6 +4,12 @@ namespace GuidedProject5
 {
     class GP5
     {
+
+        // RJK constants
+        const int MIN_Y = 1; // originally 0
+        const int MIN_X = 0;
+        // -------------
+
         public static void Execute(string[] args)
         {
             Utils.Helper.OutputTitle(" GUIDED PROJECT 5  >-<  MINI-GAME ");
@@ -16,8 +22,8 @@ namespace GuidedProject5
             bool shouldExit = false;
 
             // Console position of the player
-            int playerX = 0;
-            int playerY = 0;
+            int playerX = MIN_X;
+            int playerY = MIN_Y;
             // Console position of the food
             int foodX = 0;
             int foodY = 0;
@@ -33,6 +39,7 @@ namespace GuidedProject5
             InitializeGame();
             while (!shouldExit)
             {
+                debugBar();
                 shouldExit = Move();
                 if (TerminalResized())
                 {
@@ -50,12 +57,22 @@ namespace GuidedProject5
             // Displays random food at a random location
             void ShowFood()
             {
+                // RJK --
+                int lastFoodX = foodX;
+                int lastFoodY = foodY;
+                Console.SetCursorPosition(lastFoodX, lastFoodY);
+                for (int i = 0; i < player.Length; i++)
+                {
+                    Console.Write(" ");
+                }
+                // ------
+
                 // Update food to a random index
                 food = random.Next(0, foods.Length);
 
                 // Update food position to a random location
-                foodX = random.Next(0, width - player.Length);
-                foodY = random.Next(0, height - 1);
+                foodX = random.Next(MIN_X, width - player.Length);
+                foodY = random.Next(MIN_Y, height - 1);
 
                 // Display the food at the location
                 Console.SetCursorPosition(foodX, foodY);
@@ -74,6 +91,12 @@ namespace GuidedProject5
                 {
                     Console.Write(" ");
                 }
+                // Keep player position within the bounds of the Terminal window
+                playerX = (playerX < MIN_X) ? MIN_X : (playerX >= width ? width : playerX);
+                playerY = (playerY < MIN_Y) ? MIN_Y : (playerY >= height ? height : playerY);
+
+                // Draw the player at the new location
+                Console.SetCursorPosition(playerX, playerY);
                 // Console.SetCursorPosition(playerX, playerY);
                 // Console.Write(player);
             }
@@ -86,7 +109,7 @@ namespace GuidedProject5
             }
 
             // Reads directional input from the Console and moves the player
-            bool Move(bool increaseSpeed=false,bool banNonDirectionalInput = false)
+            bool Move(bool increaseSpeed = false, bool banNonDirectionalInput = false)
             {
                 int lastX = playerX;
                 int lastY = playerY;
@@ -123,12 +146,24 @@ namespace GuidedProject5
 
                 // Keep player position within the bounds of the Terminal window
                 playerX = (playerX < 0) ? 0 : (playerX >= width ? width : playerX);
-                playerY = (playerY < 0) ? 0 : (playerY >= height ? height : playerY);
+                // playerY = (playerY < 0) ? 0 : (playerY >= height ? height : playerY);
+                playerY = (playerY < MIN_Y) ? MIN_Y : (playerY >= height ? height : playerY);
 
                 // Draw the player at the new location
                 Console.SetCursorPosition(playerX, playerY);
-                if ((playerX >= foodX-2) && (playerX <= foodX+2) && (playerY == foodY))
+
+                // if(playerX == foodX && playerY == foodY) 
+                // -- // if middlepoint of both player & food are the same
+                // if ((playerX >= foodX - 2) && (playerX <= foodX + 2) && (playerY == foodY))
+                // -- // if any of the player's 5-character-body overlaps with the midpoint
+                // if((playerX-2 >= foodX -2) && (playerX+2 <= foodX+2) && (playerY == foodY))
+                if ((playerX + 4 >= foodX) && (playerX - 4 <= foodX) && (playerY == foodY))
                 {
+                    // Console.SetCursorPosition(0, 0);
+                    // Console.Write($"PLAYER: {playerX},{playerY}  |  FOOD: {foodX},{foodY}  |".PadRight(Console.WindowWidth, '-'));
+                    // Thread.Sleep(1000);
+                    // Console.SetCursorPosition(playerX, playerY);
+
                     ShowFood();
                     ChangePlayer();
                 }
@@ -143,15 +178,18 @@ namespace GuidedProject5
             void InitializeGame()
             {
                 Console.Clear();
+                // RJK --
+                playStartUpAnimation();
+                // ------
                 ShowFood();
-                Console.SetCursorPosition(0, 0);
+                Console.SetCursorPosition(MIN_X, MIN_Y);
                 Console.Write(player);
             }
 
 
 
 
-            bool checkPlayerTired()
+            bool checkIfPlayerTired()
             {
                 if (player == "(X_X)")
                 {
@@ -161,8 +199,8 @@ namespace GuidedProject5
 
                 return false;
             }
-            
-            bool checkPlayerHappy()
+
+            bool checkIfPlayerHappy()
             {
                 if (player == "(^-^)")
                 {
@@ -171,6 +209,43 @@ namespace GuidedProject5
                 }
 
                 return false;
+            }
+
+            void debugBar()
+            {
+                string coordinateDisplay = $"|  SNACKER BOY  |  PLAYER:  {playerX}, {playerY}  |  FOOD:  {foodX}, {foodY}  |";
+                Console.SetCursorPosition(0, 0);
+                Console.Write(coordinateDisplay.PadRight(Console.WindowWidth, '-'));
+                // Thread.Sleep(1000); // debug option
+                Console.SetCursorPosition(playerX, playerY);
+            }
+            
+            void playStartUpAnimation()
+            {
+                //
+                int animationTime = 50; // ms
+                string welcomeMessage = $"Welcome to the game!  :) ";
+                foreach (char letter in welcomeMessage)
+                {
+                    Console.Write(letter);
+                    Thread.Sleep(animationTime);
+                }
+                // pause for effect
+                Thread.Sleep(animationTime*10);
+                // delete letter by letter
+                int pos = welcomeMessage.Length; // index of how many characters need to be deleted
+                while (pos > 0) {
+                    // move back, replace with space, move back again
+                    Console.Write("\b \b");
+                    Thread.Sleep(animationTime);
+                }
+                // write debugBar();
+                string coordinateDisplay = $"|  SNACKER BOY  |  PLAYER:  {playerX}, {playerY}  |  FOOD:  {foodX}, {foodY}  |".PadRight(Console.WindowWidth,'-');
+                foreach (char letter in coordinateDisplay)
+                {
+                    Console.Write(letter);
+                    Thread.Sleep(animationTime);
+                }
             }
 
         }
