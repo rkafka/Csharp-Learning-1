@@ -1,0 +1,33 @@
+# Build output
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+
+# VS Code settings
+.vscode/
+
+# NuGet packages
+*.nupkg
+packages/
+
+# Logs
+*.log
+
+# Test results
+TestResults/
+*.coverage
+*.coveragexml
+*.testresults
+
+# Publish output
+*.publish/
+
+# Others
+*.DS_Store
+Thumbs.db
+
+# Environment files
+.env
