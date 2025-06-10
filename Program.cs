@@ -159,22 +159,9 @@ namespace CodeDebuggingAndExceptionHandling
             // tryCatchChallenge();
             // catchSpecificExceptionTypes();
             // specificExceptionsChallenge();
-            // CreateAndThrowExceptions(); // https://learn.microsoft.com/en-us/training/modules/create-throw-exceptions-c-sharp/
-            DebugAndHandleExceptionsInConsoleApp();
-
+            CreateAndThrowExceptions(); // https://learn.microsoft.com/en-us/training/modules/create-throw-exceptions-c-sharp/
             Console.WriteLine();
-        }
-
-        static void DebugAndHandleExceptionsInConsoleApp()
-        {
-            Utils.Helper.OutputTitle("Debug And Handle Exceptions in Console Application", false);
-
-            /* SECTIONS / CODE-BLOCKS (Un-Comment as necessary) */
-
-
-            /* Code for SECTION PARTS / CODE-BLOCKS BELOW */
-            
-        }
+        }W
 
         static void CreateAndThrowExceptions()
             {
