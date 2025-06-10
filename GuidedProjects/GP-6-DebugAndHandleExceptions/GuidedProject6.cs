@@ -23,7 +23,7 @@ namespace GuidedProject6
         public static void Execute(string[] args)
         {
             string? readResult = null;
-            bool useTestData = true;
+            bool useTestData = false;//true;
 
             Console.Clear();
 
@@ -82,17 +82,25 @@ namespace GuidedProject6
                 Console.WriteLine($"\t Using {paymentOnes} one dollar bills");
 
                 // MakeChange manages the transaction and updates the till 
-                string transactionMessage = MakeChange(itemCost, cashTill, paymentTwenties, paymentTens, paymentFives, paymentOnes);
+                try
+                {
+                    // string transactionMessage = MakeChange(itemCost, cashTill, paymentTwenties, paymentTens, paymentFives, paymentOnes);
+                    MakeChange(itemCost, cashTill, paymentTwenties, paymentTens, paymentFives, paymentOnes);
 
-                // Backup Calculation - each transaction adds current "itemCost" to the till
-                if (transactionMessage == "transaction succeeded")
-                {
-                    Console.WriteLine($"Transaction successfully completed.");
+                    // Backup Calculation - each transaction adds current "itemCost" to the till
+                    // if (transactionMessage == "transaction succeeded")
+                    // {
                     registerCheckTillTotal += itemCost;
+                    Console.WriteLine($"Transaction successfully completed.");
+                    // }
+                    // else
+                    // // {
+                    //     Console.WriteLine($"Transaction unsuccessful: {transactionMessage}");
+                    // }
                 }
-                else
+                catch (InvalidOperationException ex)
                 {
-                    Console.WriteLine($"Transaction unsuccessful: {transactionMessage}");
+                    Console.WriteLine($"Could not complete transaction: {ex.Message}");
                 }
 
                 Console.WriteLine(TillAmountSummary(cashTill));
@@ -108,6 +116,8 @@ namespace GuidedProject6
             } while (readResult == null);
 
 
+
+
             static void LoadTillEachMorning(int[,] registerDailyStartingCash, int[] cashTill)
             {
                 cashTill[0] = registerDailyStartingCash[0, 1];
@@ -117,9 +127,9 @@ namespace GuidedProject6
             }
 
 
-            static string MakeChange(int cost, int[] cashTill, int twenties, int tens = 0, int fives = 0, int ones = 0)
+            static void MakeChange(int cost, int[] cashTill, int twenties, int tens = 0, int fives = 0, int ones = 0)
             {
-                string transactionMessage = "";
+                // string transactionMessage = "";
 
                 cashTill[3] += twenties;
                 cashTill[2] += tens;
@@ -130,7 +140,8 @@ namespace GuidedProject6
                 int changeNeeded = amountPaid - cost;
 
                 if (changeNeeded < 0)
-                    transactionMessage = "Not enough money provided.";
+                    // transactionMessage = "Not enough money provided.";
+                    throw new InvalidOperationException("Not enough money provided.");
 
                 Console.WriteLine("Cashier Returns:");
 
@@ -150,7 +161,7 @@ namespace GuidedProject6
 
                 while ((changeNeeded > 4) && (cashTill[1] > 0))
                 {
-                    cashTill[2]--;
+                    cashTill[1]--;
                     changeNeeded -= 5;
                     Console.WriteLine("\t A five");
                 }
@@ -163,12 +174,13 @@ namespace GuidedProject6
                 }
 
                 if (changeNeeded > 0)
-                    transactionMessage = "Can't make change. Do you have anything smaller?";
+                    //     transactionMessage = "Can't make change. Do you have anything smaller?";
+                    throw new InvalidOperationException("InvalidOperationException: The till is unable to make the correct change.");
 
-                if (transactionMessage == "")
-                    transactionMessage = "transaction succeeded";
+                // if (transactionMessage == "")
+                //     transactionMessage = "transaction succeeded";
 
-                return transactionMessage;
+                // return transactionMessage;
             }
 
             static void LogTillStatus(int[] cashTill)
