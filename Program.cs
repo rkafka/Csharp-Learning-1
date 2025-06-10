@@ -161,7 +161,7 @@ namespace CodeDebuggingAndExceptionHandling
             // specificExceptionsChallenge();
             CreateAndThrowExceptions(); // https://learn.microsoft.com/en-us/training/modules/create-throw-exceptions-c-sharp/
             Console.WriteLine();
-        }W
+        }
 
         static void CreateAndThrowExceptions()
             {
