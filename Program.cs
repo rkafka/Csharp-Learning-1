@@ -23,13 +23,20 @@ using System.Linq;
 using GuidedProject5;
 using CodeDebuggingAndExceptionHandling;
 using System.Diagnostics;
+using GuidedProject6;
 
 
 // args = Array.Empty<string>();
 if (args.Length > 0)
 {
     if (int.TryParse(args[0], out int arg1))
-        if (arg1 == 1) { Console.Clear(); }
+    {
+        if (arg1 == 1)
+        {
+            Console.Clear();
+            args = args[1..];
+        }
+    }
 }
 
 Console.WriteLine();
@@ -43,9 +50,10 @@ Console.WriteLine();
 // Utils.Extras.TestFireWorksWithoutClearing();
 // GP4.Execute(args);
 
-// GP5.Execute(args[1..]); // MINI GAME
+// GP5.Execute(args.Length >= 2 ? args[1..] : args); // MINI GAME
+// DebuggingModule.Execute(args);
 
-DebuggingModule.Execute(args);
+GP6.Execute(args);
 
 Console.WriteLine();
 
