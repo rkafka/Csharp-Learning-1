@@ -23,7 +23,7 @@ namespace GuidedProject6
         public static void Execute(string[] args)
         {
             string? readResult = null;
-            bool useTestData = false;//true;
+            bool useTestData = true;//false;//true;
 
             Console.Clear();
 
